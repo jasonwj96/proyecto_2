@@ -31,6 +31,9 @@ Partial Class RescateMarino
         PictureBox7 = New PictureBox()
         PictureBox8 = New PictureBox()
         PictureBox9 = New PictureBox()
+        PictureBox10 = New PictureBox()
+        lbl_time = New Label()
+        PictureBox11 = New PictureBox()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox3, ComponentModel.ISupportInitialize).BeginInit()
@@ -40,6 +43,8 @@ Partial Class RescateMarino
         CType(PictureBox7, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox8, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox9, ComponentModel.ISupportInitialize).BeginInit()
+        CType(PictureBox10, ComponentModel.ISupportInitialize).BeginInit()
+        CType(PictureBox11, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' PictureBox1
@@ -117,9 +122,9 @@ Partial Class RescateMarino
         ' 
         PictureBox7.BackColor = Color.Transparent
         PictureBox7.Image = My.Resources.Resources.shark_sprite_3
-        PictureBox7.Location = New Point(867, 801)
+        PictureBox7.Location = New Point(882, 713)
         PictureBox7.Name = "PictureBox7"
-        PictureBox7.Size = New Size(101, 91)
+        PictureBox7.Size = New Size(85, 85)
         PictureBox7.SizeMode = PictureBoxSizeMode.Zoom
         PictureBox7.TabIndex = 6
         PictureBox7.TabStop = False
@@ -127,10 +132,10 @@ Partial Class RescateMarino
         ' PictureBox8
         ' 
         PictureBox8.BackColor = Color.Transparent
-        PictureBox8.Image = My.Resources.Resources.lifeboat_sprite1
-        PictureBox8.Location = New Point(755, 662)
+        PictureBox8.Image = My.Resources.Resources.speedboat_sprite
+        PictureBox8.Location = New Point(736, 678)
         PictureBox8.Name = "PictureBox8"
-        PictureBox8.Size = New Size(166, 133)
+        PictureBox8.Size = New Size(120, 120)
         PictureBox8.SizeMode = PictureBoxSizeMode.Zoom
         PictureBox8.TabIndex = 7
         PictureBox8.TabStop = False
@@ -147,6 +152,41 @@ Partial Class RescateMarino
         PictureBox9.TabIndex = 8
         PictureBox9.TabStop = False
         ' 
+        ' PictureBox10
+        ' 
+        PictureBox10.Anchor = AnchorStyles.Top
+        PictureBox10.BackColor = Color.Transparent
+        PictureBox10.Image = My.Resources.Resources.clock_sprite
+        PictureBox10.Location = New Point(755, 12)
+        PictureBox10.Name = "PictureBox10"
+        PictureBox10.Size = New Size(101, 76)
+        PictureBox10.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox10.TabIndex = 9
+        PictureBox10.TabStop = False
+        ' 
+        ' lbl_time
+        ' 
+        lbl_time.AutoSize = True
+        lbl_time.BackColor = Color.Transparent
+        lbl_time.Font = New Font("Arial Black", 16F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lbl_time.ForeColor = Color.Black
+        lbl_time.Location = New Point(862, 28)
+        lbl_time.Name = "lbl_time"
+        lbl_time.Size = New Size(94, 45)
+        lbl_time.TabIndex = 10
+        lbl_time.Text = "5:00"
+        ' 
+        ' PictureBox11
+        ' 
+        PictureBox11.BackColor = Color.Transparent
+        PictureBox11.Image = My.Resources.Resources.raft_sprite
+        PictureBox11.Location = New Point(599, 678)
+        PictureBox11.Name = "PictureBox11"
+        PictureBox11.Size = New Size(120, 120)
+        PictureBox11.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox11.TabIndex = 11
+        PictureBox11.TabStop = False
+        ' 
         ' RescateMarino
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
@@ -154,6 +194,9 @@ Partial Class RescateMarino
         BackColor = Color.White
         BackgroundImage = My.Resources.Resources.sea_sprite_41
         ClientSize = New Size(1778, 1244)
+        Controls.Add(PictureBox11)
+        Controls.Add(lbl_time)
+        Controls.Add(PictureBox10)
         Controls.Add(PictureBox8)
         Controls.Add(PictureBox7)
         Controls.Add(PictureBox6)
@@ -174,7 +217,10 @@ Partial Class RescateMarino
         CType(PictureBox7, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox8, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox9, ComponentModel.ISupportInitialize).EndInit()
+        CType(PictureBox10, ComponentModel.ISupportInitialize).EndInit()
+        CType(PictureBox11, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents PictureBox1 As PictureBox
@@ -186,5 +232,8 @@ Partial Class RescateMarino
     Friend WithEvents PictureBox7 As PictureBox
     Friend WithEvents PictureBox8 As PictureBox
     Friend WithEvents PictureBox9 As PictureBox
+    Friend WithEvents PictureBox10 As PictureBox
+    Friend WithEvents lbl_time As Label
+    Friend WithEvents PictureBox11 As PictureBox
 
 End Class
