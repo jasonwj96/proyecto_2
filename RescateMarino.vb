@@ -37,6 +37,11 @@
 
         If speedboat IsNot Nothing Then
             speedboat.Location = New Point(speedboat.Location.X + speedboat.dirx, speedboat.Location.Y + speedboat.diry)
+
+            If speedboat.Bounds.IntersectsWith(lifeboat.Bounds) Then
+                speedboat.dirx = -speedboat.dirx
+                speedboat.diry = -speedboat.diry
+            End If
         End If
 
         If lifeboat IsNot Nothing Then
@@ -80,7 +85,6 @@
         If speedboat.dirx < 0 Then
             speedboat.dirx = Math.Max(speedboat.dirx, -speedboat.max_speed)
         End If
-
 
         Return MyBase.ProcessCmdKey(msg, keyData)
     End Function

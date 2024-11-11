@@ -175,7 +175,7 @@ Partial Class RescateMarino
         AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
-        BackgroundImage = My.Resources.Resources.sea_sprite_2
+        BackgroundImage = My.Resources.Resources.sea_sprite_4
         ClientSize = New Size(1778, 1244)
         Controls.Add(PictureBox11)
         Controls.Add(lbl_time)

@@ -4,7 +4,7 @@
     Private type As EntityType
     Private _dirx As Integer = 0
     Private _diry As Integer = 0
-    Private _max_speed As Integer = 5
+    Private _max_speed As Integer = 8
     Public Enum EntityType
         SPEEDBOAT
         LIFEBOAT
