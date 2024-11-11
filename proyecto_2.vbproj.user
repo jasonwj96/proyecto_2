@@ -4,6 +4,12 @@
     <Compile Update="lib\GameEntity.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="lib\Swimmer.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="lib\Vehicle.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="RescateMarino.vb">
       <SubType>Form</SubType>
     </Compile>

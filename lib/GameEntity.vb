@@ -4,8 +4,8 @@
     Private type As EntityType
     Private _dirx As Integer = 0
     Private _diry As Integer = 0
-    Private _max_speed As Integer = 15
-    Private _score As Integer = 0
+    Private _max_speed As Integer = 50
+    Private _acceleration As Integer = 5
 
     Public Enum EntityType
         SPEEDBOAT
@@ -41,12 +41,12 @@
         End Set
     End Property
 
-    Public Property score As Integer
+    Public Property acceleration As Integer
         Get
-            Return _score
+            Return _acceleration
         End Get
         Set(value As Integer)
-            _score = value
+            _acceleration = value
         End Set
     End Property
 

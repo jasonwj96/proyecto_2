@@ -33,6 +33,8 @@ Partial Class RescateMarino
         lbl_time = New Label()
         tmr_game = New Timer(components)
         pnl_statusbar = New Panel()
+        tmr_lifeboat = New Timer(components)
+        tmr_swimmer_spawn = New Timer(components)
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox3, ComponentModel.ISupportInitialize).BeginInit()
@@ -150,7 +152,7 @@ Partial Class RescateMarino
         ' 
         ' tmr_game
         ' 
-        tmr_game.Interval = 1
+        tmr_game.Interval = 10
         ' 
         ' pnl_statusbar
         ' 
@@ -167,6 +169,14 @@ Partial Class RescateMarino
         pnl_statusbar.Name = "pnl_statusbar"
         pnl_statusbar.Size = New Size(1780, 85)
         pnl_statusbar.TabIndex = 12
+        ' 
+        ' tmr_lifeboat
+        ' 
+        tmr_lifeboat.Interval = 10
+        ' 
+        ' tmr_swimmer_spawn
+        ' 
+        tmr_swimmer_spawn.Interval = 5000
         ' 
         ' RescateMarino
         ' 
@@ -201,5 +211,7 @@ Partial Class RescateMarino
     Friend WithEvents lbl_time As Label
     Friend WithEvents tmr_game As Timer
     Friend WithEvents pnl_statusbar As Panel
+    Friend WithEvents tmr_lifeboat As Timer
+    Friend WithEvents tmr_swimmer_spawn As Timer
 
 End Class

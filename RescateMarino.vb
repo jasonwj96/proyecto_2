@@ -1,5 +1,7 @@
 ﻿Public Class RescateMarino
 
+    Dim max_swimmers = 10
+    Dim swimmer_count = 0
     Dim vpic_swimmers(10) As PictureBox
 
     Private Sub RescateMarino_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -11,7 +13,8 @@
         Initialize_Lifeboat()
 
         tmr_game.Enabled = True
-
+        tmr_lifeboat.Enabled = True
+        tmr_swimmer_spawn.Enabled = True
     End Sub
 
     Private Sub Initialize_Speedboat()
@@ -20,8 +23,9 @@
         Dim posx As Integer = (Me.Width / 2) - 100 / 2
         Dim posy As Integer = (Me.Height / 2) - 100 / 2
 
-        Dim speedboat As New GameEntity("pic_speedboat", GameEntity.EntityType.SPEEDBOAT, posx, posy, dimension, dimension)
-
+        Dim speedboat As New Vehicle("pic_speedboat", GameEntity.EntityType.SPEEDBOAT, posx, posy, dimension, dimension)
+        speedboat.max_speed = 5
+        speedboat.acceleration = 1
 
         Me.Controls.Add(speedboat)
     End Sub
@@ -36,6 +40,35 @@
 
         Me.Controls.Add(lifeboat)
     End Sub
+
+    Private Sub Initialize_Swimmer()
+
+        Dim rand As New Random()
+        Dim dimension As Integer = 100
+        Dim points As Integer = 10
+        Dim posx As Integer
+        Dim posy As Integer
+        Dim spawn_padding As Integer = 50
+        Dim new_swimmer As Swimmer
+        Dim lifeboat As GameEntity = Me.Controls("pic_lifeboat")
+
+        If swimmer_count < max_swimmers Then
+            posx = rand.Next(spawn_padding, Me.Width - spawn_padding - lifeboat.Width - dimension)
+            posy = rand.Next(pnl_statusbar.Height + spawn_padding, Me.Height - spawn_padding - dimension)
+            new_swimmer = New Swimmer("swimmer_" & swimmer_count + 1, GameEntity.EntityType.HUMAN, posx, posy, dimension, dimension, points)
+            new_swimmer.max_speed = 10
+            new_swimmer.acceleration = 1
+            vpic_swimmers.Append(new_swimmer)
+            Me.Controls.Add(new_swimmer)
+            swimmer_count += 1
+        End If
+    End Sub
+
+
+    Private Sub Initialize_Shark()
+
+    End Sub
+
 
     Private Sub tmr_game_Tick(sender As Object, e As EventArgs) Handles tmr_game.Tick
         Dim speedboat As GameEntity = Me.Controls("pic_speedboat")
@@ -52,13 +85,17 @@
 
             'Mantener el bote dentro del mapa
             If speedboat.Location.X <= 0 Or speedboat.Location.X >= Me.Width - speedboat.Width - 10 Then
-                speedboat.dirx = -speedboat.dirx
+                speedboat.dirx = -speedboat.dirx / 2
             End If
             If speedboat.Location.Y <= 0 Or speedboat.Location.Y >= Me.Height - speedboat.Height - 40 Then
-                speedboat.diry = -speedboat.diry
+                speedboat.diry = -speedboat.diry / 2
             End If
 
         End If
+    End Sub
+
+    Private Sub tmr_lifeboat_Tick(sender As Object, e As EventArgs) Handles tmr_lifeboat.Tick
+        Dim lifeboat As GameEntity = Me.Controls("pic_lifeboat")
 
         If lifeboat IsNot Nothing Then
             lifeboat.Location = New Point(lifeboat.Location.X, lifeboat.Location.Y + lifeboat.diry)
@@ -75,13 +112,13 @@
 
         Select Case keyData
             Case Keys.Up, Keys.W
-                speedboat.diry -= 2
+                speedboat.diry -= speedboat.acceleration
             Case Keys.Down, Keys.S
-                speedboat.diry += 2
+                speedboat.diry += speedboat.acceleration
             Case Keys.Left, Keys.A
-                speedboat.dirx -= 2
+                speedboat.dirx -= speedboat.acceleration
             Case Keys.Right, Keys.D
-                speedboat.dirx += 2
+                speedboat.dirx += speedboat.acceleration
             Case Keys.Space
                 'Simular freno
                 speedboat.dirx /= 2
@@ -113,4 +150,8 @@
 
         Return MyBase.ProcessCmdKey(msg, keyData)
     End Function
+
+    Private Sub tmr_swimmer_spawn_Tick(sender As Object, e As EventArgs) Handles tmr_swimmer_spawn.Tick
+        Initialize_Swimmer()
+    End Sub
 End Class
