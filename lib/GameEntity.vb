@@ -4,7 +4,9 @@
     Private type As EntityType
     Private _dirx As Integer = 0
     Private _diry As Integer = 0
-    Private _max_speed As Integer = 8
+    Private _max_speed As Integer = 15
+    Private _score As Integer = 0
+
     Public Enum EntityType
         SPEEDBOAT
         LIFEBOAT
@@ -39,6 +41,15 @@
         End Set
     End Property
 
+    Public Property score As Integer
+        Get
+            Return _score
+        End Get
+        Set(value As Integer)
+            _score = value
+        End Set
+    End Property
+
     Public Sub New(name As String, type As EntityType, posx As Integer, posy As Integer, width As Integer, height As Integer)
         Select Case type
             Case EntityType.SPEEDBOAT
@@ -58,5 +69,6 @@
         Me.Location = New Point(posx, posy)
         Me.Width = width
         Me.Height = height
+        Me.DoubleBuffered = True
     End Sub
 End Class
