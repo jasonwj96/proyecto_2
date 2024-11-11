@@ -22,6 +22,7 @@ Partial Class RescateMarino
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        components = New ComponentModel.Container()
         PictureBox1 = New PictureBox()
         PictureBox2 = New PictureBox()
         PictureBox3 = New PictureBox()
@@ -29,11 +30,11 @@ Partial Class RescateMarino
         PictureBox5 = New PictureBox()
         PictureBox6 = New PictureBox()
         PictureBox7 = New PictureBox()
-        PictureBox8 = New PictureBox()
-        PictureBox9 = New PictureBox()
         PictureBox10 = New PictureBox()
         lbl_time = New Label()
         PictureBox11 = New PictureBox()
+        tmr_game = New Timer(components)
+        tmr_speedboat = New Timer(components)
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox3, ComponentModel.ISupportInitialize).BeginInit()
@@ -41,8 +42,6 @@ Partial Class RescateMarino
         CType(PictureBox5, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox6, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox7, ComponentModel.ISupportInitialize).BeginInit()
-        CType(PictureBox8, ComponentModel.ISupportInitialize).BeginInit()
-        CType(PictureBox9, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox10, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox11, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -122,35 +121,12 @@ Partial Class RescateMarino
         ' 
         PictureBox7.BackColor = Color.Transparent
         PictureBox7.Image = My.Resources.Resources.shark_sprite_3
-        PictureBox7.Location = New Point(882, 713)
+        PictureBox7.Location = New Point(160, 182)
         PictureBox7.Name = "PictureBox7"
         PictureBox7.Size = New Size(85, 85)
         PictureBox7.SizeMode = PictureBoxSizeMode.Zoom
         PictureBox7.TabIndex = 6
         PictureBox7.TabStop = False
-        ' 
-        ' PictureBox8
-        ' 
-        PictureBox8.BackColor = Color.Transparent
-        PictureBox8.Image = My.Resources.Resources.speedboat_sprite
-        PictureBox8.Location = New Point(736, 678)
-        PictureBox8.Name = "PictureBox8"
-        PictureBox8.Size = New Size(120, 120)
-        PictureBox8.SizeMode = PictureBoxSizeMode.Zoom
-        PictureBox8.TabIndex = 7
-        PictureBox8.TabStop = False
-        ' 
-        ' PictureBox9
-        ' 
-        PictureBox9.Anchor = AnchorStyles.Right
-        PictureBox9.BackColor = Color.Transparent
-        PictureBox9.Image = My.Resources.Resources.lifeboar_sprite_21
-        PictureBox9.Location = New Point(1553, 12)
-        PictureBox9.Name = "PictureBox9"
-        PictureBox9.Size = New Size(170, 350)
-        PictureBox9.SizeMode = PictureBoxSizeMode.Zoom
-        PictureBox9.TabIndex = 8
-        PictureBox9.TabStop = False
         ' 
         ' PictureBox10
         ' 
@@ -180,24 +156,30 @@ Partial Class RescateMarino
         ' 
         PictureBox11.BackColor = Color.Transparent
         PictureBox11.Image = My.Resources.Resources.raft_sprite
-        PictureBox11.Location = New Point(599, 678)
+        PictureBox11.Location = New Point(241, 179)
         PictureBox11.Name = "PictureBox11"
-        PictureBox11.Size = New Size(120, 120)
+        PictureBox11.Size = New Size(86, 88)
         PictureBox11.SizeMode = PictureBoxSizeMode.Zoom
         PictureBox11.TabIndex = 11
         PictureBox11.TabStop = False
+        ' 
+        ' tmr_game
+        ' 
+        ' 
+        ' tmr_speedboat
+        ' 
+        tmr_speedboat.Interval = 10
         ' 
         ' RescateMarino
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
-        BackgroundImage = My.Resources.Resources.sea_sprite_41
+        BackgroundImage = My.Resources.Resources.sea_sprite_2
         ClientSize = New Size(1778, 1244)
         Controls.Add(PictureBox11)
         Controls.Add(lbl_time)
         Controls.Add(PictureBox10)
-        Controls.Add(PictureBox8)
         Controls.Add(PictureBox7)
         Controls.Add(PictureBox6)
         Controls.Add(PictureBox4)
@@ -205,7 +187,7 @@ Partial Class RescateMarino
         Controls.Add(PictureBox3)
         Controls.Add(PictureBox2)
         Controls.Add(PictureBox1)
-        Controls.Add(PictureBox9)
+        DoubleBuffered = True
         Name = "RescateMarino"
         Text = "Rescate Marino"
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
@@ -215,8 +197,6 @@ Partial Class RescateMarino
         CType(PictureBox5, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox6, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox7, ComponentModel.ISupportInitialize).EndInit()
-        CType(PictureBox8, ComponentModel.ISupportInitialize).EndInit()
-        CType(PictureBox9, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox10, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox11, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
@@ -230,10 +210,10 @@ Partial Class RescateMarino
     Friend WithEvents PictureBox5 As PictureBox
     Friend WithEvents PictureBox6 As PictureBox
     Friend WithEvents PictureBox7 As PictureBox
-    Friend WithEvents PictureBox8 As PictureBox
-    Friend WithEvents PictureBox9 As PictureBox
     Friend WithEvents PictureBox10 As PictureBox
     Friend WithEvents lbl_time As Label
     Friend WithEvents PictureBox11 As PictureBox
+    Friend WithEvents tmr_game As Timer
+    Friend WithEvents tmr_speedboat As Timer
 
 End Class
