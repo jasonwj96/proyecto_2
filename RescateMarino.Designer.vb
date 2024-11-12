@@ -33,6 +33,7 @@ Partial Class RescateMarino
         lbl_time = New Label()
         tmr_game = New Timer(components)
         pnl_statusbar = New Panel()
+        btn_fuel_bar = New Button()
         tmr_lifeboat = New Timer(components)
         tmr_swimmer_spawn = New Timer(components)
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
@@ -157,6 +158,7 @@ Partial Class RescateMarino
         ' pnl_statusbar
         ' 
         pnl_statusbar.BackColor = Color.Gold
+        pnl_statusbar.Controls.Add(btn_fuel_bar)
         pnl_statusbar.Controls.Add(PictureBox1)
         pnl_statusbar.Controls.Add(lbl_time)
         pnl_statusbar.Controls.Add(PictureBox6)
@@ -170,13 +172,24 @@ Partial Class RescateMarino
         pnl_statusbar.Size = New Size(1780, 85)
         pnl_statusbar.TabIndex = 12
         ' 
+        ' btn_fuel_bar
+        ' 
+        btn_fuel_bar.BackColor = Color.Lime
+        btn_fuel_bar.FlatStyle = FlatStyle.Popup
+        btn_fuel_bar.Location = New Point(79, 33)
+        btn_fuel_bar.Name = "btn_fuel_bar"
+        btn_fuel_bar.RightToLeft = RightToLeft.Yes
+        btn_fuel_bar.Size = New Size(600, 23)
+        btn_fuel_bar.TabIndex = 13
+        btn_fuel_bar.UseVisualStyleBackColor = False
+        ' 
         ' tmr_lifeboat
         ' 
         tmr_lifeboat.Interval = 10
         ' 
         ' tmr_swimmer_spawn
         ' 
-        tmr_swimmer_spawn.Interval = 5000
+        tmr_swimmer_spawn.Interval = 1000
         ' 
         ' RescateMarino
         ' 
@@ -213,5 +226,6 @@ Partial Class RescateMarino
     Friend WithEvents pnl_statusbar As Panel
     Friend WithEvents tmr_lifeboat As Timer
     Friend WithEvents tmr_swimmer_spawn As Timer
+    Friend WithEvents btn_fuel_bar As Button
 
 End Class

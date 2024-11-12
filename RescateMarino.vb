@@ -3,6 +3,7 @@
     Dim max_swimmers = 10
     Dim swimmer_count = 0
     Dim vpic_swimmers(10) As PictureBox
+    Dim max_fuel As Integer = 600
 
     Private Sub RescateMarino_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Size = New Size(1800, 1300)
@@ -81,6 +82,7 @@
             If speedboat.Bounds.IntersectsWith(lifeboat.Bounds) Or speedboat.Bounds.IntersectsWith(statusbar.Bounds) Then
                 speedboat.dirx = -speedboat.dirx
                 speedboat.diry = -speedboat.diry
+                btn_fuel_bar.Width = max_fuel
             End If
 
             'Mantener el bote dentro del mapa
@@ -92,6 +94,20 @@
             End If
 
         End If
+
+
+        If btn_fuel_bar IsNot Nothing Then
+            btn_fuel_bar.Width -= 1
+
+            If btn_fuel_bar.Width / max_fuel >= 0.66 Then
+                btn_fuel_bar.BackColor = Color.Lime
+            ElseIf btn_fuel_bar.Width / max_fuel < 0.66 And btn_fuel_bar.Width / max_fuel >= 0.33 Then
+                btn_fuel_bar.BackColor = Color.Yellow
+            Else
+                btn_fuel_bar.BackColor = Color.Red
+            End If
+        End If
+
     End Sub
 
     Private Sub tmr_lifeboat_Tick(sender As Object, e As EventArgs) Handles tmr_lifeboat.Tick
@@ -109,6 +125,11 @@
     Protected Overrides Function ProcessCmdKey(ByRef msg As Message, keyData As Keys) As Boolean
 
         Dim speedboat As GameEntity = Me.Controls("pic_speedboat")
+
+        'Si no hay gasolina no hacer nada
+        If btn_fuel_bar.Width = 0 Then
+            Exit Function
+        End If
 
         Select Case keyData
             Case Keys.Up, Keys.W
