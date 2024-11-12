@@ -36,6 +36,11 @@ Partial Class RescateMarino
         btn_fuel_bar = New Button()
         tmr_lifeboat = New Timer(components)
         tmr_swimmer_spawn = New Timer(components)
+        btn_a_key = New PictureBox()
+        btn_s_key = New PictureBox()
+        btn_w_key = New PictureBox()
+        btn_d_key = New PictureBox()
+        btn_space_key = New PictureBox()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox3, ComponentModel.ISupportInitialize).BeginInit()
@@ -44,6 +49,11 @@ Partial Class RescateMarino
         CType(PictureBox6, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox10, ComponentModel.ISupportInitialize).BeginInit()
         pnl_statusbar.SuspendLayout()
+        CType(btn_a_key, ComponentModel.ISupportInitialize).BeginInit()
+        CType(btn_s_key, ComponentModel.ISupportInitialize).BeginInit()
+        CType(btn_w_key, ComponentModel.ISupportInitialize).BeginInit()
+        CType(btn_d_key, ComponentModel.ISupportInitialize).BeginInit()
+        CType(btn_space_key, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' PictureBox1
@@ -191,6 +201,76 @@ Partial Class RescateMarino
         ' 
         tmr_swimmer_spawn.Interval = 1000
         ' 
+        ' btn_a_key
+        ' 
+        btn_a_key.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btn_a_key.BackColor = Color.Transparent
+        btn_a_key.ErrorImage = My.Resources.Resources.a_key
+        btn_a_key.Image = My.Resources.Resources.a_key
+        btn_a_key.InitialImage = Nothing
+        btn_a_key.Location = New Point(1636, 1179)
+        btn_a_key.Name = "btn_a_key"
+        btn_a_key.Size = New Size(40, 40)
+        btn_a_key.SizeMode = PictureBoxSizeMode.Zoom
+        btn_a_key.TabIndex = 13
+        btn_a_key.TabStop = False
+        ' 
+        ' btn_s_key
+        ' 
+        btn_s_key.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btn_s_key.BackColor = Color.Transparent
+        btn_s_key.ErrorImage = My.Resources.Resources.a_key
+        btn_s_key.Image = My.Resources.Resources.s_key
+        btn_s_key.InitialImage = Nothing
+        btn_s_key.Location = New Point(1674, 1179)
+        btn_s_key.Name = "btn_s_key"
+        btn_s_key.Size = New Size(40, 40)
+        btn_s_key.SizeMode = PictureBoxSizeMode.Zoom
+        btn_s_key.TabIndex = 14
+        btn_s_key.TabStop = False
+        ' 
+        ' btn_w_key
+        ' 
+        btn_w_key.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btn_w_key.BackColor = Color.Transparent
+        btn_w_key.ErrorImage = My.Resources.Resources.a_key
+        btn_w_key.Image = My.Resources.Resources.w_key
+        btn_w_key.InitialImage = Nothing
+        btn_w_key.Location = New Point(1674, 1136)
+        btn_w_key.Name = "btn_w_key"
+        btn_w_key.Size = New Size(40, 40)
+        btn_w_key.SizeMode = PictureBoxSizeMode.Zoom
+        btn_w_key.TabIndex = 16
+        btn_w_key.TabStop = False
+        ' 
+        ' btn_d_key
+        ' 
+        btn_d_key.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btn_d_key.BackColor = Color.Transparent
+        btn_d_key.ErrorImage = My.Resources.Resources.a_key
+        btn_d_key.Image = My.Resources.Resources.d_key
+        btn_d_key.InitialImage = Nothing
+        btn_d_key.Location = New Point(1711, 1179)
+        btn_d_key.Name = "btn_d_key"
+        btn_d_key.Size = New Size(40, 40)
+        btn_d_key.SizeMode = PictureBoxSizeMode.Zoom
+        btn_d_key.TabIndex = 15
+        btn_d_key.TabStop = False
+        ' 
+        ' btn_space_key
+        ' 
+        btn_space_key.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btn_space_key.BackColor = Color.Transparent
+        btn_space_key.ErrorImage = My.Resources.Resources.a_key
+        btn_space_key.Image = My.Resources.Resources.space
+        btn_space_key.InitialImage = Nothing
+        btn_space_key.Location = New Point(1480, 1179)
+        btn_space_key.Name = "btn_space_key"
+        btn_space_key.Size = New Size(150, 40)
+        btn_space_key.SizeMode = PictureBoxSizeMode.Zoom
+        btn_space_key.TabIndex = 17
+        btn_space_key.TabStop = False
+        ' 
         ' RescateMarino
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
@@ -198,6 +278,11 @@ Partial Class RescateMarino
         BackColor = Color.White
         BackgroundImage = My.Resources.Resources.sea_sprite_4
         ClientSize = New Size(1778, 1244)
+        Controls.Add(btn_space_key)
+        Controls.Add(btn_w_key)
+        Controls.Add(btn_d_key)
+        Controls.Add(btn_s_key)
+        Controls.Add(btn_a_key)
         Controls.Add(pnl_statusbar)
         DoubleBuffered = True
         Name = "RescateMarino"
@@ -211,6 +296,11 @@ Partial Class RescateMarino
         CType(PictureBox10, ComponentModel.ISupportInitialize).EndInit()
         pnl_statusbar.ResumeLayout(False)
         pnl_statusbar.PerformLayout()
+        CType(btn_a_key, ComponentModel.ISupportInitialize).EndInit()
+        CType(btn_s_key, ComponentModel.ISupportInitialize).EndInit()
+        CType(btn_w_key, ComponentModel.ISupportInitialize).EndInit()
+        CType(btn_d_key, ComponentModel.ISupportInitialize).EndInit()
+        CType(btn_space_key, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
 
@@ -227,5 +317,10 @@ Partial Class RescateMarino
     Friend WithEvents tmr_lifeboat As Timer
     Friend WithEvents tmr_swimmer_spawn As Timer
     Friend WithEvents btn_fuel_bar As Button
+    Friend WithEvents btn_a_key As PictureBox
+    Friend WithEvents btn_s_key As PictureBox
+    Friend WithEvents btn_w_key As PictureBox
+    Friend WithEvents btn_d_key As PictureBox
+    Friend WithEvents btn_space_key As PictureBox
 
 End Class

@@ -118,35 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="sea_sprite_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sea_sprite_3.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="shark_sprite" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\shark_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="shark_sprite_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\shark_sprite_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="sea_sprite_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sea_sprite_2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="lifeboar_sprite_21" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\lifeboar_sprite_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="lifeboar_sprite_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\lifeboar_sprite_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="speedboat_sprite" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\speedboat_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="sea_sprite1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sea_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="clock_sprite" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\clock_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="sea_sprite" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sea_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="sea_sprite_41" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sea_sprite_4.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="raft_sprite" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\raft_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -154,34 +127,91 @@
   <data name="heart_sprite" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\heart_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="fuel_sprite" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\fuel_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="clock_sprite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\clock_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="sea_sprite_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sea_sprite_4.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="boat_right_sprite" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\boat_right_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="w_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\w_key.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="lifeboat_sprite1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\lifeboat_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="sea_sprite_41" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sea_sprite_4.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="d_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\d_key.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="boat_down_sprite" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\boat_down_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="boat_up_sprite" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\boat_up_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="sea_sprite_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sea_sprite_3.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="shark_sprite_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\shark_sprite_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="shark_sprite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shark_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="w_key_pressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\w_key_pressed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="s_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\s_key.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="d_key_pressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\d_key_pressed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="boat_down_sprite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boat_down_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shark_sprite_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shark_sprite_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="boat_right_sprite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boat_right_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="a_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\a_key.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="s_key_pressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\s_key_pressed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sea_sprite_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sea_sprite_2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sea_sprite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sea_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="lifeboat_sprite" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\lifeboat_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="sea_sprite_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sea_sprite_4.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fuel_sprite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fuel_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="space" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\space.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="a_key_pressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\a_key_pressed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="lifeboar_sprite_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\lifeboar_sprite_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="boat_up_sprite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boat_up_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="speedboat_sprite_r" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\speedboat_sprite_r.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sea_sprite1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sea_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="lifeboar_sprite_21" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\lifeboar_sprite_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="speedboat_sprite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\speedboat_sprite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="space_pressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\space_pressed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -29,13 +29,15 @@
         speedboat.acceleration = 1
 
         Me.Controls.Add(speedboat)
+
+        btn_fuel_bar.Width = speedboat.fuel
     End Sub
 
     Private Sub Initialize_Lifeboat()
         Dim posx As Integer = 1600
         Dim posy As Integer = -330
 
-        Dim lifeboat As New GameEntity("pic_lifeboat", GameEntity.EntityType.LIFEBOAT, posx, posy, 150, 330)
+        Dim lifeboat As New Vehicle("pic_lifeboat", GameEntity.EntityType.LIFEBOAT, posx, posy, 150, 330)
         lifeboat.dirx = 0
         lifeboat.diry = 2
 
@@ -72,8 +74,8 @@
 
 
     Private Sub tmr_game_Tick(sender As Object, e As EventArgs) Handles tmr_game.Tick
-        Dim speedboat As GameEntity = Me.Controls("pic_speedboat")
-        Dim lifeboat As GameEntity = Me.Controls("pic_lifeboat")
+        Dim speedboat As Vehicle = Me.Controls("pic_speedboat")
+        Dim lifeboat As Vehicle = Me.Controls("pic_lifeboat")
         Dim statusbar As Panel = Me.Controls("pnl_statusbar")
 
         If speedboat IsNot Nothing Then
@@ -82,7 +84,12 @@
             If speedboat.Bounds.IntersectsWith(lifeboat.Bounds) Or speedboat.Bounds.IntersectsWith(statusbar.Bounds) Then
                 speedboat.dirx = -speedboat.dirx
                 speedboat.diry = -speedboat.diry
-                btn_fuel_bar.Width = max_fuel
+
+            End If
+
+            If speedboat.Bounds.IntersectsWith(lifeboat.Bounds) Then
+                speedboat.fuel = max_fuel
+                btn_fuel_bar.Width = speedboat.fuel
             End If
 
             'Mantener el bote dentro del mapa
@@ -96,12 +103,13 @@
         End If
 
 
-        If btn_fuel_bar IsNot Nothing Then
-            btn_fuel_bar.Width -= 1
+        If btn_fuel_bar IsNot Nothing And speedboat IsNot Nothing Then
+            speedboat.fuel -= 1
+            btn_fuel_bar.Width = speedboat.fuel
 
-            If btn_fuel_bar.Width / max_fuel >= 0.66 Then
+            If speedboat.fuel / max_fuel >= 0.66 Then
                 btn_fuel_bar.BackColor = Color.Lime
-            ElseIf btn_fuel_bar.Width / max_fuel < 0.66 And btn_fuel_bar.Width / max_fuel >= 0.33 Then
+            ElseIf speedboat.fuel / max_fuel < 0.66 And speedboat.fuel / max_fuel >= 0.33 Then
                 btn_fuel_bar.BackColor = Color.Yellow
             Else
                 btn_fuel_bar.BackColor = Color.Red
@@ -131,19 +139,31 @@
             Exit Function
         End If
 
+        btn_w_key.Image = My.Resources.w_key
+        btn_a_key.Image = My.Resources.a_key
+        btn_s_key.Image = My.Resources.s_key
+        btn_d_key.Image = My.Resources.d_key
+        btn_space_key.Image = My.Resources.space
+
         Select Case keyData
             Case Keys.Up, Keys.W
                 speedboat.diry -= speedboat.acceleration
+                btn_w_key.Image = My.Resources.w_key_pressed
             Case Keys.Down, Keys.S
                 speedboat.diry += speedboat.acceleration
+                btn_s_key.Image = My.Resources.s_key_pressed
             Case Keys.Left, Keys.A
                 speedboat.dirx -= speedboat.acceleration
+                btn_a_key.Image = My.Resources.a_key_pressed
             Case Keys.Right, Keys.D
                 speedboat.dirx += speedboat.acceleration
+                btn_d_key.Image = My.Resources.d_key_pressed
             Case Keys.Space
                 'Simular freno
                 speedboat.dirx /= 2
                 speedboat.diry /= 2
+                btn_space_key.Image = My.Resources.space_pressed
+
         End Select
 
         If speedboat.diry > 0 Then
@@ -175,4 +195,5 @@
     Private Sub tmr_swimmer_spawn_Tick(sender As Object, e As EventArgs) Handles tmr_swimmer_spawn.Tick
         Initialize_Swimmer()
     End Sub
+
 End Class
