@@ -3,10 +3,9 @@
     Dim max_swimmers = 10
     Dim swimmer_count = 0
     Dim vpic_swimmers(10) As PictureBox
-    Dim max_fuel As Integer = 600
 
     Private Sub RescateMarino_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Size = New Size(1800, 1300)
+        Me.Size = New Size(1300, 800)
         Me.FormBorderStyle = FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
 
@@ -20,7 +19,7 @@
 
     Private Sub Initialize_Speedboat()
         'Colocar el bote en el centro de la pantalla
-        Dim dimension As Integer = 100
+        Dim dimension As Integer = 50
         Dim posx As Integer = (Me.Width / 2) - 100 / 2
         Dim posy As Integer = (Me.Height / 2) - 100 / 2
 
@@ -30,14 +29,14 @@
 
         Me.Controls.Add(speedboat)
 
-        btn_fuel_bar.Width = speedboat.fuel
+        btn_fuel_bar.Width = speedboat.current_fuel
     End Sub
 
     Private Sub Initialize_Lifeboat()
-        Dim posx As Integer = 1600
+        Dim posx As Integer = Me.Width - 100
         Dim posy As Integer = -330
 
-        Dim lifeboat As New Vehicle("pic_lifeboat", GameEntity.EntityType.LIFEBOAT, posx, posy, 150, 330)
+        Dim lifeboat As New Vehicle("pic_lifeboat", GameEntity.EntityType.LIFEBOAT, posx, posy, 75, 175)
         lifeboat.dirx = 0
         lifeboat.diry = 2
 
@@ -47,7 +46,7 @@
     Private Sub Initialize_Swimmer()
 
         Dim rand As New Random()
-        Dim dimension As Integer = 100
+        Dim dimension As Integer = 50
         Dim points As Integer = 10
         Dim posx As Integer
         Dim posy As Integer
@@ -88,8 +87,8 @@
             End If
 
             If speedboat.Bounds.IntersectsWith(lifeboat.Bounds) Then
-                speedboat.fuel = max_fuel
-                btn_fuel_bar.Width = speedboat.fuel
+                speedboat.current_fuel = speedboat.max_fuel
+                btn_fuel_bar.Width = speedboat.current_fuel
             End If
 
             'Mantener el bote dentro del mapa
@@ -102,14 +101,14 @@
 
         End If
 
-
+        'Mecanismo de combustible
         If btn_fuel_bar IsNot Nothing And speedboat IsNot Nothing Then
-            speedboat.fuel -= 1
-            btn_fuel_bar.Width = speedboat.fuel
+            speedboat.current_fuel -= 1
+            btn_fuel_bar.Width = speedboat.current_fuel
 
-            If speedboat.fuel / max_fuel >= 0.66 Then
+            If speedboat.current_fuel / speedboat.max_fuel >= 0.66 Then
                 btn_fuel_bar.BackColor = Color.Lime
-            ElseIf speedboat.fuel / max_fuel < 0.66 And speedboat.fuel / max_fuel >= 0.33 Then
+            ElseIf speedboat.current_fuel / speedboat.max_fuel < 0.66 And speedboat.current_fuel / speedboat.max_fuel >= 0.33 Then
                 btn_fuel_bar.BackColor = Color.Yellow
             Else
                 btn_fuel_bar.BackColor = Color.Red
