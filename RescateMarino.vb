@@ -1,13 +1,19 @@
 ﻿Public Class RescateMarino
 
-    Dim max_swimmers = 10
+    Dim MAX_SWIMMERS = 10
     Dim swimmer_count = 0
-    Dim vpic_swimmers(10) As PictureBox
+    Dim vpic_swimmers(MAX_SWIMMERS) As PictureBox
 
     Private Sub RescateMarino_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Size = New Size(1300, 800)
-        Me.FormBorderStyle = FormBorderStyle.FixedDialog
-        Me.MaximizeBox = False
+        'Me.Size = New Size(1300, 800)
+
+        Me.Size = New Size(1900, 1400)
+        ' Me.FormBorderStyle = FormBorderStyle.FixedDialog
+        ' Me.MaximizeBox = False
+
+        pnl_statusbar.Width = Me.Width
+        pic_clock.Location = New Point(Me.Width / 2 - pic_clock.Width, pic_clock.Location.Y)
+        lbl_time.Location = New Point(Me.Width / 2, lbl_time.Location.Y)
 
         Initialize_Speedboat()
         Initialize_Lifeboat()
@@ -54,7 +60,7 @@
         Dim new_swimmer As Swimmer
         Dim lifeboat As GameEntity = Me.Controls("pic_lifeboat")
 
-        If swimmer_count < max_swimmers Then
+        If swimmer_count < MAX_SWIMMERS Then
             posx = rand.Next(spawn_padding, Me.Width - spawn_padding - lifeboat.Width - dimension)
             posy = rand.Next(pnl_statusbar.Height + spawn_padding, Me.Height - spawn_padding - dimension)
             new_swimmer = New Swimmer("swimmer_" & swimmer_count + 1, GameEntity.EntityType.HUMAN, posx, posy, dimension, dimension, points)
@@ -66,11 +72,9 @@
         End If
     End Sub
 
-
     Private Sub Initialize_Shark()
 
     End Sub
-
 
     Private Sub tmr_game_Tick(sender As Object, e As EventArgs) Handles tmr_game.Tick
         Dim speedboat As Vehicle = Me.Controls("pic_speedboat")
@@ -78,25 +82,24 @@
         Dim statusbar As Panel = Me.Controls("pnl_statusbar")
 
         If speedboat IsNot Nothing Then
+            speedboat.MoveEntity()
             speedboat.Location = New Point(speedboat.Location.X + speedboat.dirx, speedboat.Location.Y + speedboat.diry)
 
             If speedboat.Bounds.IntersectsWith(lifeboat.Bounds) Or speedboat.Bounds.IntersectsWith(statusbar.Bounds) Then
-                speedboat.dirx = -speedboat.dirx
-                speedboat.diry = -speedboat.diry
-
+                speedboat.ChangeDirection(-speedboat.dirx, -speedboat.diry)
             End If
 
             If speedboat.Bounds.IntersectsWith(lifeboat.Bounds) Then
-                speedboat.current_fuel = speedboat.max_fuel
+                speedboat.AddFuel(speedboat.max_fuel)
                 btn_fuel_bar.Width = speedboat.current_fuel
             End If
 
             'Mantener el bote dentro del mapa
             If speedboat.Location.X <= 0 Or speedboat.Location.X >= Me.Width - speedboat.Width - 10 Then
-                speedboat.dirx = -speedboat.dirx / 2
+                speedboat.ChangeDirection(-speedboat.dirx / 2, speedboat.diry)
             End If
             If speedboat.Location.Y <= 0 Or speedboat.Location.Y >= Me.Height - speedboat.Height - 40 Then
-                speedboat.diry = -speedboat.diry / 2
+                speedboat.ChangeDirection(speedboat.dirx, -speedboat.diry / 2)
             End If
 
         End If
@@ -131,10 +134,10 @@
 
     Protected Overrides Function ProcessCmdKey(ByRef msg As Message, keyData As Keys) As Boolean
 
-        Dim speedboat As GameEntity = Me.Controls("pic_speedboat")
+        Dim speedboat As Vehicle = Me.Controls("pic_speedboat")
 
         'Si no hay gasolina no hacer nada
-        If btn_fuel_bar.Width = 0 Then
+        If speedboat.current_fuel <= 0 Then
             Exit Function
         End If
 
@@ -194,5 +197,6 @@
     Private Sub tmr_swimmer_spawn_Tick(sender As Object, e As EventArgs) Handles tmr_swimmer_spawn.Tick
         Initialize_Swimmer()
     End Sub
+
 
 End Class

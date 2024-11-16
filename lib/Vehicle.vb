@@ -1,8 +1,8 @@
 ﻿Public Class Vehicle
     Inherits GameEntity
 
-    Private _max_fuel As Integer = 350 'Tamaño en pixeles de la barra de combustible
-    Private _current_fuel As Integer = 350 'Tamaño en pixeles de la barra de combustible
+    Private _max_fuel As Integer = 1 'Tamaño en pixeles de la barra de combustible
+    Private _current_fuel As Integer = 1 'Tamaño en pixeles de la barra de combustible
 
     Public Property current_fuel As Integer
         Get
@@ -26,4 +26,9 @@
         MyBase.New(name, type, posx, posy, width, height)
     End Sub
 
+    Public Sub AddFuel(fuel_amount As Integer)
+        If fuel_amount >= 0 And fuel_amount <= max_fuel Then
+            Me.current_fuel = fuel_amount
+        End If
+    End Sub
 End Class

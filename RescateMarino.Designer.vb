@@ -29,7 +29,7 @@ Partial Class RescateMarino
         PictureBox4 = New PictureBox()
         PictureBox5 = New PictureBox()
         PictureBox6 = New PictureBox()
-        PictureBox10 = New PictureBox()
+        pic_clock = New PictureBox()
         lbl_time = New Label()
         tmr_game = New Timer(components)
         pnl_statusbar = New Panel()
@@ -47,7 +47,7 @@ Partial Class RescateMarino
         CType(PictureBox4, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox5, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox6, ComponentModel.ISupportInitialize).BeginInit()
-        CType(PictureBox10, ComponentModel.ISupportInitialize).BeginInit()
+        CType(pic_clock, ComponentModel.ISupportInitialize).BeginInit()
         pnl_statusbar.SuspendLayout()
         CType(btn_a_key, ComponentModel.ISupportInitialize).BeginInit()
         CType(btn_s_key, ComponentModel.ISupportInitialize).BeginInit()
@@ -60,10 +60,10 @@ Partial Class RescateMarino
         ' 
         PictureBox1.BackColor = Color.Transparent
         PictureBox1.Image = My.Resources.Resources.fuel_sprite
-        PictureBox1.Location = New Point(10, 11)
+        PictureBox1.Location = New Point(12, 14)
         PictureBox1.Margin = New Padding(2)
         PictureBox1.Name = "PictureBox1"
-        PictureBox1.Size = New Size(48, 48)
+        PictureBox1.Size = New Size(60, 60)
         PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
         PictureBox1.TabIndex = 0
         PictureBox1.TabStop = False
@@ -75,10 +75,10 @@ Partial Class RescateMarino
         PictureBox2.ErrorImage = Nothing
         PictureBox2.Image = My.Resources.Resources.heart_sprite
         PictureBox2.InitialImage = Nothing
-        PictureBox2.Location = New Point(1236, 16)
+        PictureBox2.Location = New Point(1545, 20)
         PictureBox2.Margin = New Padding(2)
         PictureBox2.Name = "PictureBox2"
-        PictureBox2.Size = New Size(38, 39)
+        PictureBox2.Size = New Size(48, 49)
         PictureBox2.SizeMode = PictureBoxSizeMode.Zoom
         PictureBox2.TabIndex = 1
         PictureBox2.TabStop = False
@@ -90,10 +90,10 @@ Partial Class RescateMarino
         PictureBox3.ErrorImage = Nothing
         PictureBox3.Image = My.Resources.Resources.heart_sprite
         PictureBox3.InitialImage = Nothing
-        PictureBox3.Location = New Point(1193, 16)
+        PictureBox3.Location = New Point(1491, 20)
         PictureBox3.Margin = New Padding(2)
         PictureBox3.Name = "PictureBox3"
-        PictureBox3.Size = New Size(38, 39)
+        PictureBox3.Size = New Size(48, 49)
         PictureBox3.SizeMode = PictureBoxSizeMode.Zoom
         PictureBox3.TabIndex = 2
         PictureBox3.TabStop = False
@@ -105,10 +105,10 @@ Partial Class RescateMarino
         PictureBox4.ErrorImage = Nothing
         PictureBox4.Image = My.Resources.Resources.heart_sprite
         PictureBox4.InitialImage = Nothing
-        PictureBox4.Location = New Point(1109, 16)
+        PictureBox4.Location = New Point(1386, 20)
         PictureBox4.Margin = New Padding(2)
         PictureBox4.Name = "PictureBox4"
-        PictureBox4.Size = New Size(38, 39)
+        PictureBox4.Size = New Size(48, 49)
         PictureBox4.SizeMode = PictureBoxSizeMode.Zoom
         PictureBox4.TabIndex = 4
         PictureBox4.TabStop = False
@@ -120,10 +120,10 @@ Partial Class RescateMarino
         PictureBox5.ErrorImage = Nothing
         PictureBox5.Image = My.Resources.Resources.heart_sprite
         PictureBox5.InitialImage = Nothing
-        PictureBox5.Location = New Point(1151, 16)
+        PictureBox5.Location = New Point(1439, 20)
         PictureBox5.Margin = New Padding(2)
         PictureBox5.Name = "PictureBox5"
-        PictureBox5.Size = New Size(38, 39)
+        PictureBox5.Size = New Size(48, 49)
         PictureBox5.SizeMode = PictureBoxSizeMode.Zoom
         PictureBox5.TabIndex = 3
         PictureBox5.TabStop = False
@@ -135,26 +135,26 @@ Partial Class RescateMarino
         PictureBox6.ErrorImage = Nothing
         PictureBox6.Image = My.Resources.Resources.heart_sprite
         PictureBox6.InitialImage = Nothing
-        PictureBox6.Location = New Point(1066, 16)
+        PictureBox6.Location = New Point(1332, 20)
         PictureBox6.Margin = New Padding(2)
         PictureBox6.Name = "PictureBox6"
-        PictureBox6.Size = New Size(38, 39)
+        PictureBox6.Size = New Size(48, 49)
         PictureBox6.SizeMode = PictureBoxSizeMode.Zoom
         PictureBox6.TabIndex = 5
         PictureBox6.TabStop = False
         ' 
-        ' PictureBox10
+        ' pic_clock
         ' 
-        PictureBox10.Anchor = AnchorStyles.Top
-        PictureBox10.BackColor = Color.Transparent
-        PictureBox10.Image = My.Resources.Resources.clock_sprite
-        PictureBox10.Location = New Point(585, 15)
-        PictureBox10.Margin = New Padding(2)
-        PictureBox10.Name = "PictureBox10"
-        PictureBox10.Size = New Size(50, 44)
-        PictureBox10.SizeMode = PictureBoxSizeMode.Zoom
-        PictureBox10.TabIndex = 9
-        PictureBox10.TabStop = False
+        pic_clock.Anchor = AnchorStyles.Top
+        pic_clock.BackColor = Color.Transparent
+        pic_clock.Image = My.Resources.Resources.clock_sprite
+        pic_clock.Location = New Point(731, 19)
+        pic_clock.Margin = New Padding(2)
+        pic_clock.Name = "pic_clock"
+        pic_clock.Size = New Size(62, 55)
+        pic_clock.SizeMode = PictureBoxSizeMode.Zoom
+        pic_clock.TabIndex = 9
+        pic_clock.TabStop = False
         ' 
         ' lbl_time
         ' 
@@ -162,10 +162,10 @@ Partial Class RescateMarino
         lbl_time.BackColor = Color.Transparent
         lbl_time.Font = New Font("Arial Black", 16F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lbl_time.ForeColor = Color.Black
-        lbl_time.Location = New Point(639, 17)
+        lbl_time.Location = New Point(799, 21)
         lbl_time.Margin = New Padding(2, 0, 2, 0)
         lbl_time.Name = "lbl_time"
-        lbl_time.Size = New Size(80, 38)
+        lbl_time.Size = New Size(94, 45)
         lbl_time.TabIndex = 10
         lbl_time.Text = "5:00"
         ' 
@@ -181,25 +181,25 @@ Partial Class RescateMarino
         pnl_statusbar.Controls.Add(lbl_time)
         pnl_statusbar.Controls.Add(PictureBox6)
         pnl_statusbar.Controls.Add(PictureBox4)
-        pnl_statusbar.Controls.Add(PictureBox10)
+        pnl_statusbar.Controls.Add(pic_clock)
         pnl_statusbar.Controls.Add(PictureBox5)
         pnl_statusbar.Controls.Add(PictureBox2)
         pnl_statusbar.Controls.Add(PictureBox3)
         pnl_statusbar.Location = New Point(-1, -2)
         pnl_statusbar.Margin = New Padding(2)
         pnl_statusbar.Name = "pnl_statusbar"
-        pnl_statusbar.Size = New Size(1300, 68)
+        pnl_statusbar.Size = New Size(1625, 85)
         pnl_statusbar.TabIndex = 12
         ' 
         ' btn_fuel_bar
         ' 
         btn_fuel_bar.BackColor = Color.Lime
         btn_fuel_bar.FlatStyle = FlatStyle.Popup
-        btn_fuel_bar.Location = New Point(63, 26)
+        btn_fuel_bar.Location = New Point(79, 32)
         btn_fuel_bar.Margin = New Padding(2)
         btn_fuel_bar.Name = "btn_fuel_bar"
         btn_fuel_bar.RightToLeft = RightToLeft.Yes
-        btn_fuel_bar.Size = New Size(350, 20)
+        btn_fuel_bar.Size = New Size(438, 25)
         btn_fuel_bar.TabIndex = 13
         btn_fuel_bar.UseVisualStyleBackColor = False
         ' 
@@ -218,10 +218,10 @@ Partial Class RescateMarino
         btn_a_key.ErrorImage = My.Resources.Resources.a_key
         btn_a_key.Image = My.Resources.Resources.a_key
         btn_a_key.InitialImage = Nothing
-        btn_a_key.Location = New Point(1169, 701)
+        btn_a_key.Location = New Point(1461, 876)
         btn_a_key.Margin = New Padding(2)
         btn_a_key.Name = "btn_a_key"
-        btn_a_key.Size = New Size(32, 32)
+        btn_a_key.Size = New Size(40, 40)
         btn_a_key.SizeMode = PictureBoxSizeMode.Zoom
         btn_a_key.TabIndex = 13
         btn_a_key.TabStop = False
@@ -233,10 +233,10 @@ Partial Class RescateMarino
         btn_s_key.ErrorImage = My.Resources.Resources.a_key
         btn_s_key.Image = My.Resources.Resources.s_key
         btn_s_key.InitialImage = Nothing
-        btn_s_key.Location = New Point(1199, 701)
+        btn_s_key.Location = New Point(1499, 876)
         btn_s_key.Margin = New Padding(2)
         btn_s_key.Name = "btn_s_key"
-        btn_s_key.Size = New Size(32, 32)
+        btn_s_key.Size = New Size(40, 40)
         btn_s_key.SizeMode = PictureBoxSizeMode.Zoom
         btn_s_key.TabIndex = 14
         btn_s_key.TabStop = False
@@ -248,10 +248,10 @@ Partial Class RescateMarino
         btn_w_key.ErrorImage = My.Resources.Resources.a_key
         btn_w_key.Image = My.Resources.Resources.w_key
         btn_w_key.InitialImage = Nothing
-        btn_w_key.Location = New Point(1199, 667)
+        btn_w_key.Location = New Point(1499, 834)
         btn_w_key.Margin = New Padding(2)
         btn_w_key.Name = "btn_w_key"
-        btn_w_key.Size = New Size(32, 32)
+        btn_w_key.Size = New Size(40, 40)
         btn_w_key.SizeMode = PictureBoxSizeMode.Zoom
         btn_w_key.TabIndex = 16
         btn_w_key.TabStop = False
@@ -263,10 +263,10 @@ Partial Class RescateMarino
         btn_d_key.ErrorImage = My.Resources.Resources.a_key
         btn_d_key.Image = My.Resources.Resources.d_key
         btn_d_key.InitialImage = Nothing
-        btn_d_key.Location = New Point(1229, 701)
+        btn_d_key.Location = New Point(1536, 876)
         btn_d_key.Margin = New Padding(2)
         btn_d_key.Name = "btn_d_key"
-        btn_d_key.Size = New Size(32, 32)
+        btn_d_key.Size = New Size(40, 40)
         btn_d_key.SizeMode = PictureBoxSizeMode.Zoom
         btn_d_key.TabIndex = 15
         btn_d_key.TabStop = False
@@ -278,21 +278,21 @@ Partial Class RescateMarino
         btn_space_key.ErrorImage = My.Resources.Resources.a_key
         btn_space_key.Image = My.Resources.Resources.space
         btn_space_key.InitialImage = Nothing
-        btn_space_key.Location = New Point(1044, 701)
+        btn_space_key.Location = New Point(1305, 876)
         btn_space_key.Margin = New Padding(2)
         btn_space_key.Name = "btn_space_key"
-        btn_space_key.Size = New Size(120, 32)
+        btn_space_key.Size = New Size(150, 40)
         btn_space_key.SizeMode = PictureBoxSizeMode.Zoom
         btn_space_key.TabIndex = 17
         btn_space_key.TabStop = False
         ' 
         ' RescateMarino
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
         BackgroundImage = My.Resources.Resources.sea_sprite_4
-        ClientSize = New Size(1282, 753)
+        ClientSize = New Size(1602, 941)
         Controls.Add(btn_space_key)
         Controls.Add(btn_w_key)
         Controls.Add(btn_d_key)
@@ -309,7 +309,7 @@ Partial Class RescateMarino
         CType(PictureBox4, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox5, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox6, ComponentModel.ISupportInitialize).EndInit()
-        CType(PictureBox10, ComponentModel.ISupportInitialize).EndInit()
+        CType(pic_clock, ComponentModel.ISupportInitialize).EndInit()
         pnl_statusbar.ResumeLayout(False)
         pnl_statusbar.PerformLayout()
         CType(btn_a_key, ComponentModel.ISupportInitialize).EndInit()
@@ -326,7 +326,7 @@ Partial Class RescateMarino
     Friend WithEvents PictureBox4 As PictureBox
     Friend WithEvents PictureBox5 As PictureBox
     Friend WithEvents PictureBox6 As PictureBox
-    Friend WithEvents PictureBox10 As PictureBox
+    Friend WithEvents pic_clock As PictureBox
     Friend WithEvents lbl_time As Label
     Friend WithEvents tmr_game As Timer
     Friend WithEvents pnl_statusbar As Panel

@@ -71,4 +71,13 @@
         Me.Height = height
         Me.DoubleBuffered = True
     End Sub
+
+    Public Sub ChangeDirection(dirx As Integer, diry As Integer)
+        Me.dirx = dirx
+        Me.diry = diry
+    End Sub
+
+    Public Sub MoveEntity()
+        Me.Location = New Point(Me.Location.X + Me.dirx * acceleration, Me.Location.Y + Me.diry * acceleration)
+    End Sub
 End Class
