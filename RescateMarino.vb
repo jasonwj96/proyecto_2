@@ -1,8 +1,10 @@
 ﻿Public Class RescateMarino
 
     Dim MAX_SWIMMERS = 10
+    Dim SPRITE_SIZE = 100
     Dim swimmer_count = 0
     Dim vpic_swimmers(MAX_SWIMMERS) As PictureBox
+
 
     Private Sub RescateMarino_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Me.Size = New Size(1300, 800)
@@ -43,8 +45,7 @@
         Dim posy As Integer = -330
 
         Dim lifeboat As New Vehicle("pic_lifeboat", GameEntity.EntityType.LIFEBOAT, posx, posy, 75, 175)
-        lifeboat.dirx = 0
-        lifeboat.diry = 2
+        lifeboat.ChangeDirection(0, 2)
 
         Me.Controls.Add(lifeboat)
     End Sub
@@ -82,8 +83,10 @@
         Dim statusbar As Panel = Me.Controls("pnl_statusbar")
 
         If speedboat IsNot Nothing Then
-            speedboat.MoveEntity()
-            speedboat.Location = New Point(speedboat.Location.X + speedboat.dirx, speedboat.Location.Y + speedboat.diry)
+
+            If speedboat.current_fuel > 0 Then
+                speedboat.MoveEntity()
+            End If
 
             If speedboat.Bounds.IntersectsWith(lifeboat.Bounds) Or speedboat.Bounds.IntersectsWith(statusbar.Bounds) Then
                 speedboat.ChangeDirection(-speedboat.dirx, -speedboat.diry)
@@ -98,15 +101,17 @@
             If speedboat.Location.X <= 0 Or speedboat.Location.X >= Me.Width - speedboat.Width - 10 Then
                 speedboat.ChangeDirection(-speedboat.dirx / 2, speedboat.diry)
             End If
+
             If speedboat.Location.Y <= 0 Or speedboat.Location.Y >= Me.Height - speedboat.Height - 40 Then
                 speedboat.ChangeDirection(speedboat.dirx, -speedboat.diry / 2)
             End If
-
         End If
 
         'Mecanismo de combustible
         If btn_fuel_bar IsNot Nothing And speedboat IsNot Nothing Then
-            speedboat.current_fuel -= 1
+
+            speedboat.AddFuel(-1)
+
             btn_fuel_bar.Width = speedboat.current_fuel
 
             If speedboat.current_fuel / speedboat.max_fuel >= 0.66 Then
