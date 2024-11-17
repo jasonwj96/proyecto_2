@@ -33,6 +33,8 @@ Partial Class RescateMarino
         lbl_time = New Label()
         tmr_game = New Timer(components)
         pnl_statusbar = New Panel()
+        Label1 = New Label()
+        lbl_current_points = New Label()
         btn_fuel_bar = New Button()
         tmr_lifeboat = New Timer(components)
         tmr_swimmer_spawn = New Timer(components)
@@ -42,6 +44,7 @@ Partial Class RescateMarino
         btn_d_key = New PictureBox()
         btn_space_key = New PictureBox()
         tmr_swimmer_move = New Timer(components)
+        tmr_shark_move = New Timer(components)
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox3, ComponentModel.ISupportInitialize).BeginInit()
@@ -149,7 +152,7 @@ Partial Class RescateMarino
         pic_clock.Anchor = AnchorStyles.Top
         pic_clock.BackColor = Color.Transparent
         pic_clock.Image = My.Resources.Resources.clock_sprite
-        pic_clock.Location = New Point(731, 19)
+        pic_clock.Location = New Point(549, 14)
         pic_clock.Margin = New Padding(2)
         pic_clock.Name = "pic_clock"
         pic_clock.Size = New Size(62, 55)
@@ -163,7 +166,7 @@ Partial Class RescateMarino
         lbl_time.BackColor = Color.Transparent
         lbl_time.Font = New Font("Arial Black", 16F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lbl_time.ForeColor = Color.Black
-        lbl_time.Location = New Point(799, 21)
+        lbl_time.Location = New Point(615, 21)
         lbl_time.Margin = New Padding(2, 0, 2, 0)
         lbl_time.Name = "lbl_time"
         lbl_time.Size = New Size(94, 45)
@@ -177,6 +180,8 @@ Partial Class RescateMarino
         ' pnl_statusbar
         ' 
         pnl_statusbar.BackColor = Color.Gold
+        pnl_statusbar.Controls.Add(Label1)
+        pnl_statusbar.Controls.Add(lbl_current_points)
         pnl_statusbar.Controls.Add(btn_fuel_bar)
         pnl_statusbar.Controls.Add(PictureBox1)
         pnl_statusbar.Controls.Add(lbl_time)
@@ -191,6 +196,32 @@ Partial Class RescateMarino
         pnl_statusbar.Name = "pnl_statusbar"
         pnl_statusbar.Size = New Size(1625, 85)
         pnl_statusbar.TabIndex = 12
+        ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.BackColor = Color.Transparent
+        Label1.Font = New Font("Arial Black", 16F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label1.ForeColor = Color.Black
+        Label1.Location = New Point(932, 21)
+        Label1.Margin = New Padding(2, 0, 2, 0)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(163, 45)
+        Label1.TabIndex = 15
+        Label1.Text = "Puntaje:"
+        ' 
+        ' lbl_current_points
+        ' 
+        lbl_current_points.AutoSize = True
+        lbl_current_points.BackColor = Color.Transparent
+        lbl_current_points.Font = New Font("Arial Black", 16F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lbl_current_points.ForeColor = Color.Black
+        lbl_current_points.Location = New Point(1089, 23)
+        lbl_current_points.Margin = New Padding(2, 0, 2, 0)
+        lbl_current_points.Name = "lbl_current_points"
+        lbl_current_points.Size = New Size(41, 45)
+        lbl_current_points.TabIndex = 14
+        lbl_current_points.Text = "0"
         ' 
         ' btn_fuel_bar
         ' 
@@ -290,6 +321,9 @@ Partial Class RescateMarino
         ' tmr_swimmer_move
         ' 
         ' 
+        ' tmr_shark_move
+        ' 
+        ' 
         ' RescateMarino
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
@@ -342,5 +376,8 @@ Partial Class RescateMarino
     Friend WithEvents btn_d_key As PictureBox
     Friend WithEvents btn_space_key As PictureBox
     Friend WithEvents tmr_swimmer_move As Timer
+    Friend WithEvents Label1 As Label
+    Friend WithEvents lbl_current_points As Label
+    Friend WithEvents tmr_shark_move As Timer
 
 End Class

@@ -3,6 +3,11 @@
     Dim MAX_SWIMMERS = 10
     Dim SPRITE_SIZE = 75
     Dim vpic_swimmers As New List(Of PictureBox)
+    Dim vpic_sharks As New List(Of PictureBox)
+
+    Dim current_points = 0
+    Dim rescued_swimmers = 0
+    Dim current_round
 
     Private Sub RescateMarino_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Me.Size = New Size(1300, 800)
@@ -22,6 +27,7 @@
         tmr_lifeboat.Enabled = True
         tmr_swimmer_spawn.Enabled = True
         tmr_swimmer_move.Enabled = True
+        tmr_shark_move.Enabled = True
     End Sub
 
     Private Sub Initialize_Speedboat()
@@ -62,8 +68,8 @@
             posx = rand.Next(spawn_padding, Me.Width - spawn_padding - lifeboat.Width - SPRITE_SIZE)
             posy = rand.Next(pnl_statusbar.Height + spawn_padding, Me.Height - spawn_padding - SPRITE_SIZE)
             new_swimmer = New Swimmer("swimmer_" & vpic_swimmers.Count + 1, GameEntity.EntityType.HUMAN, posx, posy, SPRITE_SIZE, SPRITE_SIZE, points) With {
-                .max_speed = 10,
-                .acceleration = 1
+                .max_speed = 20,
+                .acceleration = 5
             }
 
             new_swimmer.ChangeDirection(If(rand.Next(0, 2) = 0, -1, 1), If(rand.Next(0, 2) = 0, -1, 1))
@@ -75,7 +81,28 @@
     End Sub
 
     Private Sub Initialize_Shark()
+        Dim rand As New Random()
+        Dim points As Integer = 10
+        Dim posx As Integer
+        Dim posy As Integer
+        Dim spawn_padding As Integer = 50
+        Dim new_shark As Swimmer
+        Dim lifeboat As GameEntity = Me.Controls("pic_lifeboat")
 
+        If vpic_sharks.Count() < MAX_SWIMMERS Then
+            posx = rand.Next(spawn_padding, Me.Width - spawn_padding - lifeboat.Width - SPRITE_SIZE)
+            posy = rand.Next(pnl_statusbar.Height + spawn_padding, Me.Height - spawn_padding - SPRITE_SIZE)
+            new_shark = New Swimmer("shark_" & vpic_sharks.Count + 1, GameEntity.EntityType.SHARK, posx, posy, SPRITE_SIZE, SPRITE_SIZE, points) With {
+                .max_speed = 20,
+                .acceleration = 5
+            }
+
+            new_shark.ChangeDirection(If(rand.Next(0, 2) = 0, -1, 1), If(rand.Next(0, 2) = 0, -1, 1))
+
+            vpic_sharks.Add(new_shark)
+
+            Me.Controls.Add(new_shark)
+        End If
     End Sub
 
     Private Sub tmr_game_Tick(sender As Object, e As EventArgs) Handles tmr_game.Tick
@@ -201,6 +228,7 @@
 
     Private Sub tmr_swimmer_spawn_Tick(sender As Object, e As EventArgs) Handles tmr_swimmer_spawn.Tick
         Initialize_Swimmer()
+        Initialize_Shark()
     End Sub
 
     Private Sub tmr_swimmer_move_Tick(sender As Object, e As EventArgs) Handles tmr_swimmer_move.Tick
@@ -209,19 +237,84 @@
         Dim speedboat As Vehicle = Me.Controls("pic_speedboat")
         Dim lifeboat As Vehicle = Me.Controls("pic_lifeboat")
 
-
         If vpic_swimmers IsNot Nothing Then
             For Each swimmer As Swimmer In vpic_swimmers
                 swimmer?.MoveEntity()
 
                 If swimmer?.Bounds.IntersectsWith(speedboat.Bounds) Then
-                    swimmer.ChangeDirection(0, 0)
-                    swimmer.Visible = False
+                    '  swimmer.ChangeDirection(0, 0)
+                    ' swimmer.Location = New Point(Me.Width + swimmer.Width, swimmer.Location.Y)
+                    'swimmer.Visible = False
+                    ' rescued_swimmers += 1
+                    current_points += swimmer.points
+                    lbl_current_points.Text = current_points
                 End If
 
                 If swimmer?.Bounds.IntersectsWith(lifeboat.Bounds) Then
                     swimmer.ChangeDirection(-swimmer.dirx, -swimmer.diry)
                 End If
+
+                If swimmer.Location.X <= 0 Or swimmer.Location.X + swimmer.Width >= Me.Width - 200 Then
+                    swimmer.dirx = -swimmer.dirx
+                End If
+
+                If swimmer.Location.Y <= pnl_statusbar.Height Or swimmer.Location.Y >= Me.Height - swimmer.Height - pnl_statusbar.Height Then
+                    swimmer.diry = -swimmer.diry
+                End If
+
+                For Each otherswimmer As Swimmer In vpic_swimmers
+                    If swimmer.Name <> otherswimmer.Name And swimmer.Bounds.IntersectsWith(otherswimmer.Bounds) Then
+
+                        Dim old_dirx As Integer = swimmer.dirx
+                        Dim old_diry As Integer = swimmer.diry
+
+                        swimmer.ChangeDirection(otherswimmer.dirx, otherswimmer.diry)
+                        otherswimmer.ChangeDirection(old_diry, old_diry)
+                    End If
+                Next
+            Next
+        End If
+    End Sub
+
+    Private Sub tmr_shark_move_Tick(sender As Object, e As EventArgs) Handles tmr_shark_move.Tick
+        Dim speedboat As Vehicle = Me.Controls("pic_speedboat")
+        Dim lifeboat As Vehicle = Me.Controls("pic_lifeboat")
+
+        If vpic_sharks IsNot Nothing Then
+            For Each shark As Swimmer In vpic_sharks
+                shark?.MoveEntity()
+
+                If shark?.Bounds.IntersectsWith(speedboat.Bounds) Then
+                    '  swimmer.ChangeDirection(0, 0)
+                    ' swimmer.Location = New Point(Me.Width + swimmer.Width, swimmer.Location.Y)
+                    'swimmer.Visible = False
+                    ' rescued_swimmers += 1
+                    current_points += shark.points
+                    lbl_current_points.Text = current_points
+                End If
+
+                If shark?.Bounds.IntersectsWith(lifeboat.Bounds) Then
+                    shark.ChangeDirection(-shark.dirx, -shark.diry)
+                End If
+
+                If shark.Location.X <= 0 Or shark.Location.X + shark.Width >= Me.Width - 200 Then
+                    shark.dirx = -shark.dirx
+                End If
+
+                If shark.Location.Y <= pnl_statusbar.Height Or shark.Location.Y >= Me.Height - shark.Height - pnl_statusbar.Height Then
+                    shark.diry = -shark.diry
+                End If
+
+                For Each other_shark As Swimmer In vpic_swimmers
+                    If shark.Name <> other_shark.Name And shark.Bounds.IntersectsWith(other_shark.Bounds) Then
+
+                        Dim old_dirx As Integer = shark.dirx
+                        Dim old_diry As Integer = shark.diry
+
+                        shark.ChangeDirection(other_shark.dirx, other_shark.diry)
+                        other_shark.ChangeDirection(old_diry, old_diry)
+                    End If
+                Next
             Next
         End If
     End Sub
