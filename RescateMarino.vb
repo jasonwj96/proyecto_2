@@ -1,10 +1,8 @@
 ﻿Public Class RescateMarino
 
     Dim MAX_SWIMMERS = 10
-    Dim SPRITE_SIZE = 100
-    Dim swimmer_count = 0
-    Dim vpic_swimmers(MAX_SWIMMERS) As PictureBox
-
+    Dim SPRITE_SIZE = 75
+    Dim vpic_swimmers As New List(Of PictureBox)
 
     Private Sub RescateMarino_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Me.Size = New Size(1300, 800)
@@ -23,15 +21,15 @@
         tmr_game.Enabled = True
         tmr_lifeboat.Enabled = True
         tmr_swimmer_spawn.Enabled = True
+        tmr_swimmer_move.Enabled = True
     End Sub
 
     Private Sub Initialize_Speedboat()
         'Colocar el bote en el centro de la pantalla
-        Dim dimension As Integer = 50
         Dim posx As Integer = (Me.Width / 2) - 100 / 2
         Dim posy As Integer = (Me.Height / 2) - 100 / 2
 
-        Dim speedboat As New Vehicle("pic_speedboat", GameEntity.EntityType.SPEEDBOAT, posx, posy, dimension, dimension)
+        Dim speedboat As New Vehicle("pic_speedboat", GameEntity.EntityType.SPEEDBOAT, posx, posy, SPRITE_SIZE, SPRITE_SIZE)
         speedboat.max_speed = 5
         speedboat.acceleration = 1
 
@@ -41,10 +39,10 @@
     End Sub
 
     Private Sub Initialize_Lifeboat()
-        Dim posx As Integer = Me.Width - 100
+        Dim posx As Integer = Me.Width - 190
         Dim posy As Integer = -330
 
-        Dim lifeboat As New Vehicle("pic_lifeboat", GameEntity.EntityType.LIFEBOAT, posx, posy, 75, 175)
+        Dim lifeboat As New Vehicle("pic_lifeboat", GameEntity.EntityType.LIFEBOAT, posx, posy, 150, 350)
         lifeboat.ChangeDirection(0, 2)
 
         Me.Controls.Add(lifeboat)
@@ -53,7 +51,6 @@
     Private Sub Initialize_Swimmer()
 
         Dim rand As New Random()
-        Dim dimension As Integer = 50
         Dim points As Integer = 10
         Dim posx As Integer
         Dim posy As Integer
@@ -61,15 +58,19 @@
         Dim new_swimmer As Swimmer
         Dim lifeboat As GameEntity = Me.Controls("pic_lifeboat")
 
-        If swimmer_count < MAX_SWIMMERS Then
-            posx = rand.Next(spawn_padding, Me.Width - spawn_padding - lifeboat.Width - dimension)
-            posy = rand.Next(pnl_statusbar.Height + spawn_padding, Me.Height - spawn_padding - dimension)
-            new_swimmer = New Swimmer("swimmer_" & swimmer_count + 1, GameEntity.EntityType.HUMAN, posx, posy, dimension, dimension, points)
-            new_swimmer.max_speed = 10
-            new_swimmer.acceleration = 1
-            vpic_swimmers.Append(new_swimmer)
+        If vpic_swimmers.Count() < MAX_SWIMMERS Then
+            posx = rand.Next(spawn_padding, Me.Width - spawn_padding - lifeboat.Width - SPRITE_SIZE)
+            posy = rand.Next(pnl_statusbar.Height + spawn_padding, Me.Height - spawn_padding - SPRITE_SIZE)
+            new_swimmer = New Swimmer("swimmer_" & vpic_swimmers.Count + 1, GameEntity.EntityType.HUMAN, posx, posy, SPRITE_SIZE, SPRITE_SIZE, points) With {
+                .max_speed = 10,
+                .acceleration = 1
+            }
+
+            new_swimmer.ChangeDirection(If(rand.Next(0, 2) = 0, -1, 1), If(rand.Next(0, 2) = 0, -1, 1))
+
+            vpic_swimmers.Add(new_swimmer)
+
             Me.Controls.Add(new_swimmer)
-            swimmer_count += 1
         End If
     End Sub
 
@@ -110,7 +111,7 @@
         'Mecanismo de combustible
         If btn_fuel_bar IsNot Nothing And speedboat IsNot Nothing Then
 
-            speedboat.AddFuel(-1)
+            ' speedboat.AddFuel(-1)
 
             btn_fuel_bar.Width = speedboat.current_fuel
 
@@ -122,7 +123,6 @@
                 btn_fuel_bar.BackColor = Color.Red
             End If
         End If
-
     End Sub
 
     Private Sub tmr_lifeboat_Tick(sender As Object, e As EventArgs) Handles tmr_lifeboat.Tick
@@ -203,5 +203,26 @@
         Initialize_Swimmer()
     End Sub
 
+    Private Sub tmr_swimmer_move_Tick(sender As Object, e As EventArgs) Handles tmr_swimmer_move.Tick
+        'Mover los pasajeros
 
+        Dim speedboat As Vehicle = Me.Controls("pic_speedboat")
+        Dim lifeboat As Vehicle = Me.Controls("pic_lifeboat")
+
+
+        If vpic_swimmers IsNot Nothing Then
+            For Each swimmer As Swimmer In vpic_swimmers
+                swimmer?.MoveEntity()
+
+                If swimmer?.Bounds.IntersectsWith(speedboat.Bounds) Then
+                    swimmer.ChangeDirection(0, 0)
+                    swimmer.Visible = False
+                End If
+
+                If swimmer?.Bounds.IntersectsWith(lifeboat.Bounds) Then
+                    swimmer.ChangeDirection(-swimmer.dirx, -swimmer.diry)
+                End If
+            Next
+        End If
+    End Sub
 End Class

@@ -41,6 +41,7 @@ Partial Class RescateMarino
         btn_w_key = New PictureBox()
         btn_d_key = New PictureBox()
         btn_space_key = New PictureBox()
+        tmr_swimmer_move = New Timer(components)
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox3, ComponentModel.ISupportInitialize).BeginInit()
@@ -286,12 +287,14 @@ Partial Class RescateMarino
         btn_space_key.TabIndex = 17
         btn_space_key.TabStop = False
         ' 
+        ' tmr_swimmer_move
+        ' 
+        ' 
         ' RescateMarino
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
-        BackgroundImage = My.Resources.Resources.sea_sprite_4
         ClientSize = New Size(1602, 941)
         Controls.Add(btn_space_key)
         Controls.Add(btn_w_key)
@@ -338,5 +341,6 @@ Partial Class RescateMarino
     Friend WithEvents btn_w_key As PictureBox
     Friend WithEvents btn_d_key As PictureBox
     Friend WithEvents btn_space_key As PictureBox
+    Friend WithEvents tmr_swimmer_move As Timer
 
 End Class
