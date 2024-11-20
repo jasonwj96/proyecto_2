@@ -44,7 +44,6 @@ Partial Class RescateMarino
         btn_d_key = New PictureBox()
         btn_space_key = New PictureBox()
         tmr_swimmer_move = New Timer(components)
-        tmr_shark_move = New Timer(components)
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox3, ComponentModel.ISupportInitialize).BeginInit()
@@ -307,7 +306,7 @@ Partial Class RescateMarino
         ' 
         btn_space_key.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btn_space_key.BackColor = Color.Transparent
-        btn_space_key.ErrorImage = My.Resources.Resources.a_key
+        btn_space_key.ErrorImage = My.Resources.Resources.explosion_sprite
         btn_space_key.Image = My.Resources.Resources.space
         btn_space_key.InitialImage = Nothing
         btn_space_key.Location = New Point(1305, 876)
@@ -319,9 +318,6 @@ Partial Class RescateMarino
         btn_space_key.TabStop = False
         ' 
         ' tmr_swimmer_move
-        ' 
-        ' 
-        ' tmr_shark_move
         ' 
         ' 
         ' RescateMarino
@@ -378,6 +374,5 @@ Partial Class RescateMarino
     Friend WithEvents tmr_swimmer_move As Timer
     Friend WithEvents Label1 As Label
     Friend WithEvents lbl_current_points As Label
-    Friend WithEvents tmr_shark_move As Timer
 
 End Class
