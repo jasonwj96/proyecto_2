@@ -46,7 +46,7 @@
 
         Me.Controls.Add(speedboat)
 
-        btn_fuel_bar.Width = FUELBAR_WIDTH * (speedboat.current_fuel / speedboat.max_fuel)
+        btn_fuel_bar.Width = CInt(FUELBAR_WIDTH * (speedboat.current_fuel / speedboat.max_fuel))
     End Sub
 
     Private Sub Initialize_Lifeboat()
@@ -96,17 +96,26 @@
             current_swimmers += 1
         End If
 
+
+    End Sub
+
+    Private Sub Initialize_Shark()
+        Dim SPAWN_PADDING As Integer = 50
+
+        Dim rand As New Random()
+        Dim new_swimmer As Swimmer
+        Dim lifeboat As GameEntity = Me.Controls("pic_lifeboat")
+
         If current_sharks < MAX_SHARKS Then
             new_swimmer = New Swimmer("shark_" & vpic_swimmers.Count + 1,
-                                      GameEntity.EntityType.SHARK,
+                                        GameEntity.EntityType.SHARK,
                                       rand.Next(SPAWN_PADDING, Me.Width - SPAWN_PADDING - lifeboat.Width - SWIMMER_SPRITE_SIZE),
                                       rand.Next(pnl_statusbar.Height + SPAWN_PADDING, Me.Height - SPAWN_PADDING - SWIMMER_SPRITE_SIZE),
                                       SWIMMER_SPRITE_SIZE, SWIMMER_SPRITE_SIZE, 10) With {
                 .BackColor = Color.Transparent,
                 .max_speed = 20,
                 .acceleration = 5
-            }
-
+}
             new_swimmer.ChangeDirection(If(rand.Next(0, 2) = 0, -1, 1),
                                         If(rand.Next(0, 2) = 0, -1, 1))
 
@@ -240,6 +249,7 @@
 
     Private Sub tmr_swimmer_spawn_Tick(sender As Object, e As EventArgs) Handles tmr_swimmer_spawn.Tick
         Initialize_Swimmer()
+        'Initialize_Shark()
     End Sub
 
     Private Sub tmr_swimmer_move_Tick(sender As Object, e As EventArgs) Handles tmr_swimmer_move.Tick
@@ -288,4 +298,5 @@
             Next
         End If
     End Sub
+
 End Class

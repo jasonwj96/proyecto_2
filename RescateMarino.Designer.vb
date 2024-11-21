@@ -35,6 +35,7 @@ Partial Class RescateMarino
         pnl_statusbar = New Panel()
         Label1 = New Label()
         lbl_current_points = New Label()
+        btn_fuel_bar_empty = New Button()
         btn_fuel_bar = New Button()
         tmr_lifeboat = New Timer(components)
         tmr_swimmer_spawn = New Timer(components)
@@ -163,7 +164,7 @@ Partial Class RescateMarino
         ' 
         lbl_time.AutoSize = True
         lbl_time.BackColor = Color.Transparent
-        lbl_time.Font = New Font("Arial Black", 16F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lbl_time.Font = New Font("Arial Black", 16.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lbl_time.ForeColor = Color.Black
         lbl_time.Location = New Point(687, 23)
         lbl_time.Margin = New Padding(2, 0, 2, 0)
@@ -181,7 +182,6 @@ Partial Class RescateMarino
         pnl_statusbar.BackColor = Color.Gold
         pnl_statusbar.Controls.Add(Label1)
         pnl_statusbar.Controls.Add(lbl_current_points)
-        pnl_statusbar.Controls.Add(btn_fuel_bar)
         pnl_statusbar.Controls.Add(PictureBox1)
         pnl_statusbar.Controls.Add(lbl_time)
         pnl_statusbar.Controls.Add(PictureBox6)
@@ -190,6 +190,7 @@ Partial Class RescateMarino
         pnl_statusbar.Controls.Add(PictureBox5)
         pnl_statusbar.Controls.Add(PictureBox2)
         pnl_statusbar.Controls.Add(PictureBox3)
+        pnl_statusbar.Controls.Add(btn_fuel_bar_empty)
         pnl_statusbar.Location = New Point(-1, -2)
         pnl_statusbar.Margin = New Padding(2)
         pnl_statusbar.Name = "pnl_statusbar"
@@ -200,7 +201,7 @@ Partial Class RescateMarino
         ' 
         Label1.AutoSize = True
         Label1.BackColor = Color.Transparent
-        Label1.Font = New Font("Arial Black", 16F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label1.Font = New Font("Arial Black", 16.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.Black
         Label1.Location = New Point(932, 21)
         Label1.Margin = New Padding(2, 0, 2, 0)
@@ -213,7 +214,7 @@ Partial Class RescateMarino
         ' 
         lbl_current_points.AutoSize = True
         lbl_current_points.BackColor = Color.Transparent
-        lbl_current_points.Font = New Font("Arial Black", 16F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lbl_current_points.Font = New Font("Arial Black", 16.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lbl_current_points.ForeColor = Color.Black
         lbl_current_points.Location = New Point(1089, 23)
         lbl_current_points.Margin = New Padding(2, 0, 2, 0)
@@ -222,11 +223,25 @@ Partial Class RescateMarino
         lbl_current_points.TabIndex = 14
         lbl_current_points.Text = "0"
         ' 
+        ' btn_fuel_bar_empty
+        ' 
+        btn_fuel_bar_empty.BackColor = Color.LightSteelBlue
+        btn_fuel_bar_empty.FlatAppearance.BorderSize = 0
+        btn_fuel_bar_empty.FlatStyle = FlatStyle.Flat
+        btn_fuel_bar_empty.Location = New Point(87, 33)
+        btn_fuel_bar_empty.Margin = New Padding(2)
+        btn_fuel_bar_empty.Name = "btn_fuel_bar_empty"
+        btn_fuel_bar_empty.RightToLeft = RightToLeft.Yes
+        btn_fuel_bar_empty.Size = New Size(450, 25)
+        btn_fuel_bar_empty.TabIndex = 16
+        btn_fuel_bar_empty.UseVisualStyleBackColor = False
+        ' 
         ' btn_fuel_bar
         ' 
         btn_fuel_bar.BackColor = Color.Lime
-        btn_fuel_bar.FlatStyle = FlatStyle.Popup
-        btn_fuel_bar.Location = New Point(80, 33)
+        btn_fuel_bar.FlatAppearance.BorderSize = 0
+        btn_fuel_bar.FlatStyle = FlatStyle.Flat
+        btn_fuel_bar.Location = New Point(87, 32)
         btn_fuel_bar.Margin = New Padding(2)
         btn_fuel_bar.Name = "btn_fuel_bar"
         btn_fuel_bar.RightToLeft = RightToLeft.Yes
@@ -322,10 +337,11 @@ Partial Class RescateMarino
         ' 
         ' RescateMarino
         ' 
-        AutoScaleDimensions = New SizeF(10F, 25F)
+        AutoScaleDimensions = New SizeF(10.0F, 25.0F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
         ClientSize = New Size(1602, 941)
+        Controls.Add(btn_fuel_bar)
         Controls.Add(btn_space_key)
         Controls.Add(btn_w_key)
         Controls.Add(btn_d_key)
@@ -374,5 +390,6 @@ Partial Class RescateMarino
     Friend WithEvents tmr_swimmer_move As Timer
     Friend WithEvents Label1 As Label
     Friend WithEvents lbl_current_points As Label
+    Friend WithEvents btn_fuel_bar_empty As Button
 
 End Class
