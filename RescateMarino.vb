@@ -2,15 +2,18 @@
 
     Dim MAX_SWIMMERS = 10
     Dim MAX_SHARKS = 10
-    Dim SPRITE_SIZE = 75
+    Dim SWIMMER_SPRITE_SIZE = 75
+    Dim FUELBAR_WIDTH = 450
+    Dim LIFEBOAT_WIDTH = 150
+    Dim LIFEBOAT_HEIGHT = 350
 
     Dim current_swimmers = 0
     Dim current_sharks = 0
-    Dim vpic_swimmers As New List(Of PictureBox)
-
     Dim current_points = 0
+    Dim current_round = 1
     Dim rescued_swimmers = 0
-    Dim current_round
+
+    Dim vpic_swimmers As New List(Of PictureBox)
 
     Private Sub RescateMarino_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Me.Size = New Size(1300, 800)
@@ -20,8 +23,6 @@
         Me.MaximizeBox = False
 
         pnl_statusbar.Width = Me.Width
-        pic_clock.Location = New Point(Me.Width / 2 - pic_clock.Width, pic_clock.Location.Y)
-        lbl_time.Location = New Point(Me.Width / 2, lbl_time.Location.Y)
 
         Initialize_Speedboat()
         Initialize_Lifeboat()
@@ -34,25 +35,29 @@
 
     Private Sub Initialize_Speedboat()
         'Colocar el bote en el centro de la pantalla
-        Dim posx As Integer = (Me.Width / 2) - 100 / 2
-        Dim posy As Integer = (Me.Height / 2) - 100 / 2
+        Dim speedboat As New Vehicle("pic_speedboat", GameEntity.EntityType.SPEEDBOAT,
+            (Me.Width / 2) - 100 / 2,
+            (Me.Height / 2) - 100 / 2,
+            SWIMMER_SPRITE_SIZE, SWIMMER_SPRITE_SIZE)
 
-        Dim speedboat As New Vehicle("pic_speedboat", GameEntity.EntityType.SPEEDBOAT, posx, posy, SPRITE_SIZE, SPRITE_SIZE) With {
-            .BackColor = Color.Transparent,
-            .max_speed = 5,
-            .acceleration = 1
-        }
+        speedboat.BackColor = Color.Transparent
+        speedboat.max_speed = 5
+        speedboat.acceleration = 1
 
         Me.Controls.Add(speedboat)
 
-        btn_fuel_bar.Width = speedboat.current_fuel
+        btn_fuel_bar.Width = FUELBAR_WIDTH * (speedboat.current_fuel / speedboat.max_fuel)
     End Sub
 
     Private Sub Initialize_Lifeboat()
-        Dim posx As Integer = Me.Width - 190
-        Dim posy As Integer = -330
 
-        Dim lifeboat As New Vehicle("pic_lifeboat", GameEntity.EntityType.LIFEBOAT, posx, posy, 150, 350)
+        Dim LIFEBOAT_SPAWN_PADDING = 40
+
+        Dim lifeboat As New Vehicle("pic_lifeboat", GameEntity.EntityType.LIFEBOAT,
+                                    Me.Width - LIFEBOAT_WIDTH - LIFEBOAT_SPAWN_PADDING,
+                                    -LIFEBOAT_HEIGHT,
+                                    LIFEBOAT_WIDTH,
+                                    LIFEBOAT_HEIGHT)
 
         lifeboat.BackColor = Color.Transparent
         lifeboat.ChangeDirection(0, 2)
@@ -62,11 +67,9 @@
 
     Private Sub Initialize_Swimmer()
 
+        Dim SPAWN_PADDING As Integer = 50
+
         Dim rand As New Random()
-        Dim points As Integer = 10
-        Dim posx As Integer
-        Dim posy As Integer
-        Dim spawn_padding As Integer = 50
         Dim new_swimmer As Swimmer
         Dim lifeboat As GameEntity = Me.Controls("pic_lifeboat")
 
@@ -74,11 +77,11 @@
 
             new_swimmer = New Swimmer("swimmer_" & vpic_swimmers.Count + 1,
                                       GameEntity.EntityType.HUMAN,
-                                      rand.Next(spawn_padding, Me.Width - spawn_padding - lifeboat.Width - SPRITE_SIZE),
-                                      rand.Next(pnl_statusbar.Height + spawn_padding, Me.Height - spawn_padding - SPRITE_SIZE),
-                                      SPRITE_SIZE,
-                                      SPRITE_SIZE,
-                                      points) With {
+                                      rand.Next(SPAWN_PADDING, Me.Width - SPAWN_PADDING - LIFEBOAT_WIDTH - SWIMMER_SPRITE_SIZE),
+                                      rand.Next(pnl_statusbar.Height + SPAWN_PADDING, Me.Height - SPAWN_PADDING - SWIMMER_SPRITE_SIZE),
+                                      SWIMMER_SPRITE_SIZE,
+                                      SWIMMER_SPRITE_SIZE,
+                                      10) With {
                 .BackColor = Color.Transparent,
                 .max_speed = 20,
                 .acceleration = 5
@@ -88,17 +91,17 @@
                                         If(rand.Next(0, 2) = 0, -1, 1))
 
             vpic_swimmers.Add(new_swimmer)
-
             Me.Controls.Add(new_swimmer)
+
             current_swimmers += 1
         End If
 
         If current_sharks < MAX_SHARKS Then
             new_swimmer = New Swimmer("shark_" & vpic_swimmers.Count + 1,
                                       GameEntity.EntityType.SHARK,
-                                      rand.Next(spawn_padding, Me.Width - spawn_padding - lifeboat.Width - SPRITE_SIZE),
-                                      rand.Next(pnl_statusbar.Height + spawn_padding, Me.Height - spawn_padding - SPRITE_SIZE),
-                                      SPRITE_SIZE, SPRITE_SIZE, points) With {
+                                      rand.Next(SPAWN_PADDING, Me.Width - SPAWN_PADDING - lifeboat.Width - SWIMMER_SPRITE_SIZE),
+                                      rand.Next(pnl_statusbar.Height + SPAWN_PADDING, Me.Height - SPAWN_PADDING - SWIMMER_SPRITE_SIZE),
+                                      SWIMMER_SPRITE_SIZE, SWIMMER_SPRITE_SIZE, 10) With {
                 .BackColor = Color.Transparent,
                 .max_speed = 20,
                 .acceleration = 5
@@ -108,7 +111,6 @@
                                         If(rand.Next(0, 2) = 0, -1, 1))
 
             vpic_swimmers.Add(new_swimmer)
-
             Me.Controls.Add(new_swimmer)
 
             current_sharks += 1
@@ -132,7 +134,7 @@
 
             If speedboat.Bounds.IntersectsWith(lifeboat.Bounds) Then
                 speedboat.AddFuel(speedboat.max_fuel)
-                btn_fuel_bar.Width = speedboat.current_fuel
+                btn_fuel_bar.Width = FUELBAR_WIDTH * (speedboat.current_fuel / speedboat.max_fuel)
             End If
 
             'Mantener el bote dentro del mapa
@@ -148,9 +150,9 @@
         'Mecanismo de combustible
         If btn_fuel_bar IsNot Nothing And speedboat IsNot Nothing Then
 
-            ' speedboat.AddFuel(-1)
+            speedboat.AddFuel(-1)
 
-            btn_fuel_bar.Width = speedboat.current_fuel
+            btn_fuel_bar.Width = FUELBAR_WIDTH * (speedboat.current_fuel / speedboat.max_fuel)
 
             If speedboat.current_fuel / speedboat.max_fuel >= 0.66 Then
                 btn_fuel_bar.BackColor = Color.Lime

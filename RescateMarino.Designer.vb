@@ -151,7 +151,7 @@ Partial Class RescateMarino
         pic_clock.Anchor = AnchorStyles.Top
         pic_clock.BackColor = Color.Transparent
         pic_clock.Image = My.Resources.Resources.clock_sprite
-        pic_clock.Location = New Point(549, 14)
+        pic_clock.Location = New Point(621, 14)
         pic_clock.Margin = New Padding(2)
         pic_clock.Name = "pic_clock"
         pic_clock.Size = New Size(62, 55)
@@ -165,7 +165,7 @@ Partial Class RescateMarino
         lbl_time.BackColor = Color.Transparent
         lbl_time.Font = New Font("Arial Black", 16F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lbl_time.ForeColor = Color.Black
-        lbl_time.Location = New Point(615, 21)
+        lbl_time.Location = New Point(687, 23)
         lbl_time.Margin = New Padding(2, 0, 2, 0)
         lbl_time.Name = "lbl_time"
         lbl_time.Size = New Size(94, 45)
@@ -226,11 +226,11 @@ Partial Class RescateMarino
         ' 
         btn_fuel_bar.BackColor = Color.Lime
         btn_fuel_bar.FlatStyle = FlatStyle.Popup
-        btn_fuel_bar.Location = New Point(79, 32)
+        btn_fuel_bar.Location = New Point(80, 33)
         btn_fuel_bar.Margin = New Padding(2)
         btn_fuel_bar.Name = "btn_fuel_bar"
         btn_fuel_bar.RightToLeft = RightToLeft.Yes
-        btn_fuel_bar.Size = New Size(438, 25)
+        btn_fuel_bar.Size = New Size(450, 25)
         btn_fuel_bar.TabIndex = 13
         btn_fuel_bar.UseVisualStyleBackColor = False
         ' 
