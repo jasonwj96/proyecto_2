@@ -16,10 +16,11 @@
 
     'Variables de la ronda
     Dim current_round As Integer = 1
-    Dim current_swimmers As Integer = 0
-    Dim current_sharks As Integer = 0
     Dim current_points As Integer = 0
     Dim rescued_swimmers As Integer = 0
+
+    Dim RESPAWN_TIME_SECS = 2
+    Dim REMAINING_RESPAWN_TIME = RESPAWN_TIME_SECS
 
     'Limites de la pantalla
     Dim X_LEFT_BOUND As Integer = SPAWN_PADDING
@@ -44,12 +45,16 @@
         Initialize_Lifeboat()
 
         tmr_game.Enabled = True
-        tmr_lifeboat.Enabled = True
         tmr_swimmer_spawn.Enabled = True
         tmr_swimmer_move.Enabled = True
     End Sub
 
     Private Sub Initialize_Speedboat()
+
+        If Me.Controls.ContainsKey("pic_speedboat") Then
+            Me.Controls.RemoveByKey("pic_speedboat")
+        End If
+
         'Colocar el bote en el centro de la pantalla
         Dim speedboat As New Vehicle("pic_speedboat", GameEntity.EntityType.SPEEDBOAT,
             (Me.Width / 2) - 100 / 2,
@@ -59,6 +64,7 @@
         speedboat.BackColor = Color.Transparent
         speedboat.max_speed = 5
         speedboat.acceleration = 1
+        speedboat.Visible = True
 
         Me.Controls.Add(speedboat)
 
@@ -81,17 +87,33 @@
         Me.Controls.Add(lifeboat)
     End Sub
 
-    Private Sub Initialize_Swimmer()
+    Private Sub Initialize_Swimmer(type As GameEntity.EntityType)
 
         Dim rand As New Random()
         Dim new_swimmer As Swimmer
         Dim swimmer_speed = 20
         Dim swimmer_acceleration = 5
+        Dim current_list As List(Of PictureBox)
+        Dim name_prefix As String = ""
+        Dim tag As String = ""
 
-        If current_swimmers < MAX_SWIMMERS Then
+        Select Case type
+            Case GameEntity.EntityType.SHARK
+                current_list = vpic_sharks
+                name_prefix = "shark_"
+                tag = "shark"
+            Case Else
+                current_list = vpic_swimmers
+                name_prefix = "swimmer_"
+                tag = "human"
+        End Select
 
-            new_swimmer = New Swimmer("swimmer_" & vpic_swimmers.Count + 1,
-                                      GameEntity.EntityType.HUMAN,
+        'TODO: Logica de posx y posy para tiburones
+
+        If current_list.Count < MAX_SWIMMERS Then
+
+            new_swimmer = New Swimmer(name_prefix & current_list.Count + 1,
+                                      type,
                                       rand.Next(X_LEFT_BOUND, X_RIGHT_BOUND),
                                       rand.Next(Y_TOP_BOUND, Y_BOTTOM_BOUND),
                                       SWIMMER_SPRITE_SIZE,
@@ -100,97 +122,25 @@
                                       swimmer_speed,
                                       swimmer_acceleration)
 
-            new_swimmer.ChangeDirection(If(rand.Next(0, 2) = 0, -1, 1),
-                                        If(rand.Next(0, 2) = 0, -1, 1))
-
-            vpic_swimmers.Add(new_swimmer)
-            Me.Controls.Add(new_swimmer)
-
-            current_swimmers += 1
-        End If
-
-
-    End Sub
-
-    Private Sub Initialize_Shark()
-        Dim SPAWN_PADDING As Integer = 50
-
-        Dim rand As New Random()
-        Dim new_swimmer As Swimmer
-        Dim lifeboat As GameEntity = Me.Controls("pic_lifeboat")
-        Dim swimmer_points = 10
-        Dim swimmer_speed = 20
-        Dim swimmer_acceleration = 5
-
-        If current_sharks < MAX_SHARKS Then
-            new_swimmer = New Swimmer("swimmer_" & vpic_swimmers.Count + 1,
-                                      GameEntity.EntityType.SHARK,
-                                      rand.Next(X_LEFT_BOUND, X_RIGHT_BOUND),
-                                      rand.Next(Y_TOP_BOUND, Y_BOTTOM_BOUND),
-                                      SWIMMER_SPRITE_SIZE,
-                                      SWIMMER_SPRITE_SIZE,
-                                      swimmer_points,
-                                      swimmer_speed,
-                                      swimmer_acceleration)
+            new_swimmer.Tag = Tag
 
             new_swimmer.ChangeDirection(If(rand.Next(0, 2) = 0, -1, 1),
                                         If(rand.Next(0, 2) = 0, -1, 1))
 
-            vpic_sharks.Add(new_swimmer)
+            current_list.Add(new_swimmer)
             Me.Controls.Add(new_swimmer)
-
-            current_sharks += 1
         End If
+
     End Sub
 
     Private Sub tmr_game_Tick(sender As Object, e As EventArgs) Handles tmr_game.Tick
-        Dim speedboat As Vehicle = Me.Controls("pic_speedboat")
-        Dim lifeboat As Vehicle = Me.Controls("pic_lifeboat")
-        Dim statusbar As Panel = Me.Controls("pnl_statusbar")
-
-        If speedboat IsNot Nothing Then
-
-            If speedboat.current_fuel > 0 Then
-                speedboat.MoveEntity()
-            End If
-
-            If speedboat.Bounds.IntersectsWith(lifeboat.Bounds) Or speedboat.Bounds.IntersectsWith(statusbar.Bounds) Then
-                speedboat.ChangeDirection(-speedboat.dirx, -speedboat.diry)
-            End If
-
-            If speedboat.Bounds.IntersectsWith(lifeboat.Bounds) Then
-                speedboat.AddFuel(speedboat.max_fuel)
-                btn_fuel_bar.Width = FUELBAR_WIDTH * (speedboat.current_fuel / speedboat.max_fuel)
-            End If
-
-            'Mantener el bote dentro del mapa
-            If speedboat.Location.X <= 0 Or speedboat.Location.X >= Me.Width - speedboat.Width - 10 Then
-                speedboat.ChangeDirection(-speedboat.dirx / 2, speedboat.diry)
-            End If
-
-            If speedboat.Location.Y <= 0 Or speedboat.Location.Y >= Me.Height - speedboat.Height - 40 Then
-                speedboat.ChangeDirection(speedboat.dirx, -speedboat.diry / 2)
-            End If
-        End If
-
-        'Mecanismo de combustible
-        If btn_fuel_bar IsNot Nothing And speedboat IsNot Nothing Then
-
-            speedboat.AddFuel(-1)
-
-            btn_fuel_bar.Width = FUELBAR_WIDTH * (speedboat.current_fuel / speedboat.max_fuel)
-
-            If speedboat.current_fuel / speedboat.max_fuel >= 0.66 Then
-                btn_fuel_bar.BackColor = Color.Lime
-            ElseIf speedboat.current_fuel / speedboat.max_fuel < 0.66 And speedboat.current_fuel / speedboat.max_fuel >= 0.33 Then
-                btn_fuel_bar.BackColor = Color.Yellow
-            Else
-                btn_fuel_bar.BackColor = Color.Red
-            End If
-        End If
+        Move_Lifeboat()
+        Move_Speedboat()
+        Handle_fuel()
     End Sub
 
-    Private Sub tmr_lifeboat_Tick(sender As Object, e As EventArgs) Handles tmr_lifeboat.Tick
+    Private Sub Move_Lifeboat()
+
         Dim lifeboat As GameEntity = Me.Controls("pic_lifeboat")
 
         If lifeboat IsNot Nothing Then
@@ -202,12 +152,72 @@
         End If
     End Sub
 
+    Private Sub Move_Speedboat()
+        Dim speedboat As Vehicle = Me.Controls("pic_speedboat")
+        Dim lifeboat As GameEntity = Me.Controls("pic_lifeboat")
+
+        'Mover lancha
+        If speedboat.current_fuel > 0 Then
+            speedboat.MoveEntity()
+        End If
+
+        If speedboat.Bounds.IntersectsWith(lifeboat.Bounds) Or speedboat.Bounds.IntersectsWith(pnl_statusbar.Bounds) Then
+            speedboat.ChangeDirection(-speedboat.dirx, -speedboat.diry)
+        End If
+
+        If speedboat.Bounds.IntersectsWith(lifeboat.Bounds) Then
+
+            If Math.Abs(speedboat.dirx) >= 5 Or Math.Abs(speedboat.diry) >= 5 Then
+                Destroy_Speedboat()
+            End If
+
+            speedboat.AddFuel(speedboat.max_fuel)
+            btn_fuel_bar.Width = FUELBAR_WIDTH * (speedboat.current_fuel / speedboat.max_fuel)
+            speedboat.current_passengers = 0
+            Refresh_points()
+        End If
+
+        'Mantener el bote dentro del mapa
+        If speedboat.Location.X <= 0 Or speedboat.Location.X >= Me.Width - speedboat.Width - 10 Then
+            speedboat.ChangeDirection(-speedboat.dirx / 2, speedboat.diry)
+        End If
+
+        If speedboat.Location.Y <= 0 Or speedboat.Location.Y >= Me.Height - speedboat.Height - 40 Then
+            speedboat.ChangeDirection(speedboat.dirx, -speedboat.diry / 2)
+        End If
+    End Sub
+
+    Private Sub Handle_fuel()
+        Dim speedboat As Vehicle = Me.Controls("pic_speedboat")
+
+        'Mecanismo de combustible
+        speedboat.AddFuel(-1)
+
+        btn_fuel_bar.Width = FUELBAR_WIDTH * (speedboat.current_fuel / speedboat.max_fuel)
+
+        If speedboat.current_fuel / speedboat.max_fuel >= 0.66 Then
+            btn_fuel_bar.BackColor = Color.Lime
+        ElseIf speedboat.current_fuel / speedboat.max_fuel < 0.66 And speedboat.current_fuel / speedboat.max_fuel >= 0.33 Then
+            btn_fuel_bar.BackColor = Color.Yellow
+        Else
+            btn_fuel_bar.BackColor = Color.Red
+        End If
+    End Sub
+
+
+    Private Sub Refresh_points()
+        If tmr_respawn.Enabled = False Then
+            Dim speedboat As Vehicle = Me.Controls("pic_speedboat")
+            lbl_current_points.Text = speedboat.current_score
+        End If
+    End Sub
+
     Protected Overrides Function ProcessCmdKey(ByRef msg As Message, keyData As Keys) As Boolean
 
         Dim speedboat As Vehicle = Me.Controls("pic_speedboat")
 
         'Si no hay gasolina no hacer nada
-        If speedboat.current_fuel <= 0 Then
+        If speedboat.current_fuel <= 0 Or tmr_respawn.Enabled Then
             Exit Function
         End If
 
@@ -235,7 +245,6 @@
                 speedboat.dirx /= 2
                 speedboat.diry /= 2
                 btn_space_key.Image = My.Resources.space_pressed
-
         End Select
 
         If speedboat.diry > 0 Then
@@ -265,7 +274,7 @@
     End Function
 
     Private Sub tmr_swimmer_spawn_Tick(sender As Object, e As EventArgs) Handles tmr_swimmer_spawn.Tick
-        Initialize_Swimmer()
+        Initialize_Swimmer(GameEntity.EntityType.HUMAN)
         'Initialize_Shark()
     End Sub
 
@@ -288,12 +297,7 @@
             swimmer?.MoveEntity()
 
             If swimmer?.Bounds.IntersectsWith(speedboat.Bounds) Then
-                'swimmer.ChangeDirection(0, 0)
-                'swimmer.Location = New Point(Me.Width + swimmer.Width, swimmer.Location.Y)
-                'swimmer.Visible = False
-                ' rescued_swimmers += 1
-                current_points += swimmer.points
-                lbl_current_points.Text = current_points
+                speedboat.AddPassenger(swimmer)
             End If
 
             If swimmer?.Bounds.IntersectsWith(lifeboat.Bounds) Then
@@ -313,4 +317,33 @@
         Next
     End Sub
 
+    Private Sub Destroy_Speedboat()
+        Dim speedboat As Vehicle = Me.Controls("pic_speedboat")
+        speedboat.current_passengers = 0
+        speedboat.ChangeDirection(0, 0)
+        speedboat.Image = My.Resources.explosion_sprite1
+        speedboat.acceleration = 0
+        speedboat.current_fuel = 0
+        btn_fuel_bar.Width = FUELBAR_WIDTH * (speedboat.current_fuel / speedboat.max_fuel)
+        REMAINING_RESPAWN_TIME = RESPAWN_TIME_SECS
+        tmr_respawn.Enabled = True
+
+        If speedboat.current_lives > 0 Then
+            speedboat.current_lives -= 1
+
+            For i = 1 To speedboat.current_lives
+                Dim heart = Me.Controls("pic_heart_" & i)
+                heart.Visible = False
+            Next
+        End If
+    End Sub
+
+    Private Sub tmr_respawn_Tick(sender As Object, e As EventArgs) Handles tmr_respawn.Tick
+        If REMAINING_RESPAWN_TIME = 0 Then
+            Initialize_Speedboat()
+            tmr_respawn.Enabled = False
+        ElseIf REMAINING_RESPAWN_TIME > 0 Then
+            REMAINING_RESPAWN_TIME -= 1
+        End If
+    End Sub
 End Class
