@@ -3,6 +3,7 @@
     'Constantes
     Dim FORM_WIDTH = 1900
     Dim FORM_HEIGHT = 1400
+
     Dim STATUSBAR_HEIGHT As Integer = 85
     Dim MAX_SWIMMERS As Integer = 10
     Dim MAX_SHARKS As Integer = 10
@@ -19,7 +20,7 @@
     Dim current_round As Integer = 1
     Dim current_points As Integer = 0
     Dim rescued_swimmers As Integer = 0
-    Dim current_lives As Integer = 1
+    Dim current_lives As Integer = 5
 
     Dim RESPAWN_TIME_SECS = 2
     Dim REMAINING_RESPAWN_TIME = RESPAWN_TIME_SECS
@@ -51,7 +52,6 @@
         tmr_swimmer_spawn.Enabled = True
         tmr_swimmer_move.Enabled = True
     End Sub
-
 
     Private Sub Initialize_Hearts()
         Dim speedboat As Vehicle = Me.Controls("pic_speedboat")
@@ -155,7 +155,7 @@
                                       swimmer_speed,
                                       swimmer_acceleration)
 
-            new_swimmer.Tag = Tag
+            new_swimmer.Tag = tag
 
             new_swimmer.ChangeDirection(If(rand.Next(0, 2) = 0, -1, 1),
                                         If(rand.Next(0, 2) = 0, -1, 1))
@@ -200,7 +200,7 @@
 
         If speedboat.Bounds.IntersectsWith(lifeboat.Bounds) Then
 
-            If Math.Abs(speedboat.dirx) >= 5 Or Math.Abs(speedboat.diry) >= 5 Then
+            If Math.Abs(speedboat.dirx) >= 5 Or Math.Abs(speedboat.diry) >= 5 And speedboat.Tag <> "destroyed" Then
                 Destroy_Speedboat()
             End If
 
@@ -308,7 +308,7 @@
 
     Private Sub tmr_swimmer_spawn_Tick(sender As Object, e As EventArgs) Handles tmr_swimmer_spawn.Tick
         Initialize_Swimmer(GameEntity.EntityType.HUMAN)
-        'Initialize_Shark()
+        Initialize_Swimmer(GameEntity.EntityType.SHARK)
     End Sub
 
     Private Sub tmr_swimmer_move_Tick(sender As Object, e As EventArgs) Handles tmr_swimmer_move.Tick
@@ -329,22 +329,68 @@
 
             swimmer?.MoveEntity()
 
-            If swimmer?.Bounds.IntersectsWith(speedboat.Bounds) Then
+            If swimmer?.Bounds.IntersectsWith(speedboat.Bounds) And swimmer.Tag <> "dead" Then
                 speedboat.AddPassenger(swimmer)
             End If
 
             If swimmer?.Bounds.IntersectsWith(lifeboat.Bounds) Then
+                tmr_swimmer_move.Enabled = False
+                tmr_game.Enabled = False
                 swimmer.ChangeDirection(-swimmer.dirx, -swimmer.diry)
+                tmr_swimmer_move.Enabled = True
+                tmr_game.Enabled = True
             End If
 
             For Each otherswimmer As Swimmer In vpic_swimmers
                 If swimmer.Name <> otherswimmer.Name And swimmer.Bounds.IntersectsWith(otherswimmer.Bounds) Then
+                    tmr_swimmer_move.Enabled = False
+                    swimmer.ChangeDirection(-swimmer.dirx, -swimmer.diry)
+                    tmr_swimmer_move.Enabled = True
+                End If
+            Next
+        Next
 
-                    Dim old_dirx As Integer = swimmer.dirx
-                    Dim old_diry As Integer = swimmer.diry
+        For Each shark As Swimmer In vpic_sharks
 
-                    swimmer.ChangeDirection(otherswimmer.dirx, otherswimmer.diry)
-                    otherswimmer.ChangeDirection(old_diry, old_diry)
+            If shark.Location.X <= 0 Or shark.Location.X + shark.Width >= Me.Width - LIFEBOAT_WIDTH Then
+                shark.dirx = -shark.dirx
+            End If
+
+            If shark.Location.Y <= pnl_statusbar.Height Or shark.Location.Y >= Me.Height - shark.Height - pnl_statusbar.Height Then
+                shark.diry = -shark.diry
+            End If
+
+            shark?.MoveEntity()
+
+            If shark?.Bounds.IntersectsWith(speedboat.Bounds) And speedboat.Tag <> "destroyed" Then
+                Destroy_Speedboat()
+            End If
+
+            If shark?.Bounds.IntersectsWith(lifeboat.Bounds) Then
+                tmr_swimmer_move.Enabled = False
+                tmr_game.Enabled = False
+                shark.ChangeDirection(-shark.dirx, -shark.diry)
+                tmr_swimmer_move.Enabled = True
+                tmr_game.Enabled = True
+            End If
+
+            For Each othershark As Swimmer In vpic_sharks
+                If shark.Name <> othershark.Name And shark.Bounds.IntersectsWith(othershark.Bounds) Then
+                    tmr_swimmer_move.Enabled = False
+                    shark.ChangeDirection(-shark.dirx, -shark.diry)
+                    tmr_swimmer_move.Enabled = True
+                End If
+            Next
+
+            For Each otherswimmer As Swimmer In vpic_swimmers
+                If shark.Name <> otherswimmer.Name And shark.Bounds.IntersectsWith(otherswimmer.Bounds) Then
+                    tmr_swimmer_move.Enabled = False
+
+                    otherswimmer.Image = My.Resources.tombstone_sprite
+                    otherswimmer.points = 0
+                    otherswimmer.ChangeDirection(0, 0)
+                    otherswimmer.Tag = "dead"
+                    tmr_swimmer_move.Enabled = True
                 End If
             Next
         Next
@@ -352,6 +398,7 @@
 
     Private Sub Destroy_Speedboat()
         Dim speedboat As Vehicle = Me.Controls("pic_speedboat")
+        speedboat.Tag = "destroyed"
         speedboat.current_passengers = 0
         speedboat.ChangeDirection(0, 0)
         speedboat.Image = My.Resources.explosion_sprite1
@@ -379,4 +426,6 @@
             REMAINING_RESPAWN_TIME -= 1
         End If
     End Sub
+
+
 End Class

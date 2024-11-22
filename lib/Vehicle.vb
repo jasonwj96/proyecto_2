@@ -78,7 +78,7 @@
 
     End Sub
     Public Sub AddPassenger(passenger As Swimmer)
-        If current_passengers < max_passengers And passenger.Visible Then
+        If current_passengers < max_passengers And passenger.Visible And passenger.Tag <> "dead" Then
             current_passengers += 1
             current_score += passenger.points
             passenger.ChangeDirection(0, 0)
