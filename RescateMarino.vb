@@ -5,6 +5,7 @@
     Dim FORM_HEIGHT = 1400
 
     Dim STATUSBAR_HEIGHT As Integer = 85
+    Dim TITLEBAR_HEIGHT As Integer = 40
     Dim MAX_SWIMMERS As Integer = 10
     Dim MAX_SHARKS As Integer = 50
 
@@ -15,6 +16,7 @@
     Dim LIFEBOAT_HEIGHT As Integer = 350
     Dim SPAWN_PADDING As Integer = 50
     Dim LIFEBOAT_SPAWN_PADDING = 40
+    Dim SAFEZONE_PADDING = 5
 
     Dim SWIMMER_POINTS = 10
 
@@ -143,7 +145,7 @@
                 tag = "shark"
 
                 posx = rand.Next(X_LEFT_BOUND - SWIMMER_SPRITE_SIZE, X_RIGHT_BOUND + (SWIMMER_SPRITE_SIZE * 2))
-                posy = rand.Next(Y_TOP_BOUND - SWIMMER_SPRITE_SIZE, Y_BOTTOM_BOUND + (SWIMMER_SPRITE_SIZE * 2))
+                posy = rand.Next(Y_TOP_BOUND - SWIMMER_SPRITE_SIZE - TITLEBAR_HEIGHT, Y_BOTTOM_BOUND + (SWIMMER_SPRITE_SIZE * 2))
 
                 While posx >= X_LEFT_BOUND And posx <= (X_RIGHT_BOUND - SWIMMER_SPRITE_SIZE)
                     posx = rand.Next(X_LEFT_BOUND - SWIMMER_SPRITE_SIZE, X_RIGHT_BOUND + (SWIMMER_SPRITE_SIZE * 2))
@@ -169,7 +171,7 @@
                 current_list = vpic_swimmers
                 name_prefix = "swimmer_"
                 limit = MAX_SWIMMERS
-                posx = rand.Next(X_LEFT_BOUND, X_RIGHT_BOUND - LIFEBOAT_WIDTH - LIFEBOAT_SPAWN_PADDING)
+                posx = rand.Next(X_LEFT_BOUND, X_RIGHT_BOUND - LIFEBOAT_WIDTH - LIFEBOAT_SPAWN_PADDING - SWIMMER_SPRITE_SIZE)
                 posy = rand.Next(Y_TOP_BOUND + pnl_statusbar.Height, Y_BOTTOM_BOUND - SWIMMER_SPRITE_SIZE)
                 dirx = If(rand.Next(0, 2) = 0, -1, 1)
                 diry = If(rand.Next(0, 2) = 0, -1, 1)
@@ -244,11 +246,11 @@
         End If
 
         'Mantener el bote dentro del mapa
-        If speedboat.Location.X <= 0 Or speedboat.Location.X >= Me.Width - speedboat.Width - 10 Then
+        If speedboat.Location.X <= 0 Or speedboat.Location.X >= Me.Width - speedboat.Width Then
             speedboat.ChangeDirection(-speedboat.dirx / 2, speedboat.diry)
         End If
 
-        If speedboat.Location.Y <= 0 Or speedboat.Location.Y >= Me.Height - speedboat.Height - 40 Then
+        If speedboat.Location.Y <= 0 Or speedboat.Location.Y >= Me.Height - speedboat.Height - TITLEBAR_HEIGHT Then
             speedboat.ChangeDirection(speedboat.dirx, -speedboat.diry / 2)
         End If
     End Sub
@@ -352,11 +354,13 @@
 
         For Each swimmer As Swimmer In vpic_swimmers
 
-            If swimmer.Location.X <= X_LEFT_BOUND Or swimmer.Location.X + swimmer.Width >= Me.Width - LIFEBOAT_WIDTH Then
+            If swimmer.Location.X < (X_LEFT_BOUND + SAFEZONE_PADDING) Or swimmer.Location.X >
+                (X_RIGHT_BOUND - SWIMMER_SPRITE_SIZE - LIFEBOAT_WIDTH - LIFEBOAT_SPAWN_PADDING - SAFEZONE_PADDING) Then
                 swimmer.dirx = -swimmer.dirx
             End If
 
-            If swimmer.Location.Y <= pnl_statusbar.Height Or swimmer.Location.Y >= Me.Height - swimmer.Height Then
+            If swimmer.Location.Y < (pnl_statusbar.Height + SAFEZONE_PADDING) Or swimmer.Location.Y >
+                (Y_BOTTOM_BOUND - swimmer.Height - SAFEZONE_PADDING - 50) Then
                 swimmer.diry = -swimmer.diry
             End If
 
