@@ -6,13 +6,15 @@
 
     Dim STATUSBAR_HEIGHT As Integer = 85
     Dim MAX_SWIMMERS As Integer = 10
-    Dim MAX_SHARKS As Integer = 10
+    Dim MAX_SHARKS As Integer = 50
+
     Dim SWIMMER_SPRITE_SIZE As Integer = 75
     Dim HEART_SPRITE_SIZE As Integer = 50
     Dim FUELBAR_WIDTH As Integer = 450
     Dim LIFEBOAT_WIDTH As Integer = 150
     Dim LIFEBOAT_HEIGHT As Integer = 350
     Dim SPAWN_PADDING As Integer = 50
+    Dim LIFEBOAT_SPAWN_PADDING = 40
 
     Dim SWIMMER_POINTS = 10
 
@@ -26,10 +28,10 @@
     Dim REMAINING_RESPAWN_TIME = RESPAWN_TIME_SECS
 
     'Limites de la pantalla
-    Dim X_LEFT_BOUND As Integer = SPAWN_PADDING
-    Dim X_RIGHT_BOUND As Integer = FORM_WIDTH - LIFEBOAT_WIDTH - SPAWN_PADDING - SWIMMER_SPRITE_SIZE
+    Dim X_LEFT_BOUND As Integer = 0
+    Dim X_RIGHT_BOUND As Integer = FORM_WIDTH
     Dim Y_TOP_BOUND As Integer = STATUSBAR_HEIGHT
-    Dim Y_BOTTOM_BOUND As Integer = FORM_HEIGHT - SWIMMER_SPRITE_SIZE
+    Dim Y_BOTTOM_BOUND As Integer = FORM_HEIGHT
 
     Dim vpic_swimmers As New List(Of PictureBox)
     Dim vpic_sharks As New List(Of PictureBox)
@@ -106,8 +108,6 @@
 
     Private Sub Initialize_Lifeboat()
 
-        Dim LIFEBOAT_SPAWN_PADDING = 40
-
         Dim lifeboat As New Vehicle("pic_lifeboat", GameEntity.EntityType.LIFEBOAT,
                                     Me.Width - LIFEBOAT_WIDTH - LIFEBOAT_SPAWN_PADDING,
                                     -LIFEBOAT_HEIGHT,
@@ -127,28 +127,60 @@
         Dim swimmer_speed = 20
         Dim swimmer_acceleration = 5
         Dim current_list As List(Of PictureBox)
-        Dim name_prefix As String = ""
-        Dim tag As String = ""
+        Dim name_prefix As String
+        Dim tag As String
+        Dim limit As Integer
+        Dim posx As Integer
+        Dim posy As Integer
+        Dim dirx As Integer
+        Dim diry As Integer
 
         Select Case type
             Case GameEntity.EntityType.SHARK
                 current_list = vpic_sharks
+                limit = MAX_SHARKS
                 name_prefix = "shark_"
                 tag = "shark"
+
+                posx = rand.Next(X_LEFT_BOUND - SWIMMER_SPRITE_SIZE, X_RIGHT_BOUND + (SWIMMER_SPRITE_SIZE * 2))
+                posy = rand.Next(Y_TOP_BOUND - SWIMMER_SPRITE_SIZE, Y_BOTTOM_BOUND + (SWIMMER_SPRITE_SIZE * 2))
+
+                While posx >= X_LEFT_BOUND And posx <= (X_RIGHT_BOUND - SWIMMER_SPRITE_SIZE)
+                    posx = rand.Next(X_LEFT_BOUND - SWIMMER_SPRITE_SIZE, X_RIGHT_BOUND + (SWIMMER_SPRITE_SIZE * 2))
+                End While
+
+                While posy >= Y_TOP_BOUND And posy <= (Y_BOTTOM_BOUND - SWIMMER_SPRITE_SIZE)
+                    posy = rand.Next(Y_TOP_BOUND - SWIMMER_SPRITE_SIZE, Y_BOTTOM_BOUND + (SWIMMER_SPRITE_SIZE * 2))
+                End While
+
+                If posx <= Me.Width / 2 Then
+                    dirx = 1
+                Else
+                    dirx = -1
+                End If
+
+                If posy <= Me.Height / 2 Then
+                    diry = 1
+                Else
+                    diry = -1
+                End If
+
             Case Else
                 current_list = vpic_swimmers
                 name_prefix = "swimmer_"
-                tag = "human"
+                limit = MAX_SWIMMERS
+                posx = rand.Next(X_LEFT_BOUND, X_RIGHT_BOUND - LIFEBOAT_WIDTH - LIFEBOAT_SPAWN_PADDING)
+                posy = rand.Next(Y_TOP_BOUND + pnl_statusbar.Height, Y_BOTTOM_BOUND - SWIMMER_SPRITE_SIZE)
+                dirx = If(rand.Next(0, 2) = 0, -1, 1)
+                diry = If(rand.Next(0, 2) = 0, -1, 1)
         End Select
 
-        'TODO: Logica de posx y posy para tiburones
-
-        If current_list.Count < MAX_SWIMMERS Then
+        If current_list.Count < limit Then
 
             new_swimmer = New Swimmer(name_prefix & current_list.Count + 1,
                                       type,
-                                      rand.Next(X_LEFT_BOUND, X_RIGHT_BOUND),
-                                      rand.Next(Y_TOP_BOUND, Y_BOTTOM_BOUND),
+                                      posx,
+                                      posy,
                                       SWIMMER_SPRITE_SIZE,
                                       SWIMMER_SPRITE_SIZE,
                                       SWIMMER_POINTS,
@@ -156,9 +188,10 @@
                                       swimmer_acceleration)
 
             new_swimmer.Tag = tag
+            new_swimmer.ChangeDirection(dirx, diry)
 
-            new_swimmer.ChangeDirection(If(rand.Next(0, 2) = 0, -1, 1),
-                                        If(rand.Next(0, 2) = 0, -1, 1))
+            If new_swimmer.Tag = "shark" Then
+            End If
 
             current_list.Add(new_swimmer)
             Me.Controls.Add(new_swimmer)
@@ -308,7 +341,7 @@
 
     Private Sub tmr_swimmer_spawn_Tick(sender As Object, e As EventArgs) Handles tmr_swimmer_spawn.Tick
         Initialize_Swimmer(GameEntity.EntityType.HUMAN)
-        Initialize_Swimmer(GameEntity.EntityType.SHARK)
+        '   Initialize_Swimmer(GameEntity.EntityType.SHARK)
     End Sub
 
     Private Sub tmr_swimmer_move_Tick(sender As Object, e As EventArgs) Handles tmr_swimmer_move.Tick
@@ -319,11 +352,11 @@
 
         For Each swimmer As Swimmer In vpic_swimmers
 
-            If swimmer.Location.X <= 0 Or swimmer.Location.X + swimmer.Width >= Me.Width - LIFEBOAT_WIDTH Then
+            If swimmer.Location.X <= X_LEFT_BOUND Or swimmer.Location.X + swimmer.Width >= Me.Width - LIFEBOAT_WIDTH Then
                 swimmer.dirx = -swimmer.dirx
             End If
 
-            If swimmer.Location.Y <= pnl_statusbar.Height Or swimmer.Location.Y >= Me.Height - swimmer.Height - pnl_statusbar.Height Then
+            If swimmer.Location.Y <= pnl_statusbar.Height Or swimmer.Location.Y >= Me.Height - swimmer.Height Then
                 swimmer.diry = -swimmer.diry
             End If
 
@@ -352,11 +385,15 @@
 
         For Each shark As Swimmer In vpic_sharks
 
-            If shark.Location.X <= 0 Or shark.Location.X + shark.Width >= Me.Width - LIFEBOAT_WIDTH Then
+            If shark.Location.X >= X_LEFT_BOUND And shark.Location.X <= X_RIGHT_BOUND And shark.Location.Y >= Y_TOP_BOUND And shark.Location.Y <= Y_BOTTOM_BOUND Then
+                shark.entered_bounds = True
+            End If
+
+            If shark.Location.X <= 0 Or shark.Location.X + shark.Width >= Me.Width - LIFEBOAT_WIDTH And shark.entered_bounds = True Then
                 shark.dirx = -shark.dirx
             End If
 
-            If shark.Location.Y <= pnl_statusbar.Height Or shark.Location.Y >= Me.Height - shark.Height - pnl_statusbar.Height Then
+            If shark.Location.Y <= pnl_statusbar.Height Or shark.Location.Y >= Me.Height - shark.Height And shark.entered_bounds = True Then
                 shark.diry = -shark.diry
             End If
 
@@ -366,7 +403,7 @@
                 Destroy_Speedboat()
             End If
 
-            If shark?.Bounds.IntersectsWith(lifeboat.Bounds) Then
+            If shark?.Bounds.IntersectsWith(lifeboat.Bounds) And shark.entered_bounds = True Then
                 tmr_swimmer_move.Enabled = False
                 tmr_game.Enabled = False
                 shark.ChangeDirection(-shark.dirx, -shark.diry)
@@ -378,6 +415,7 @@
                 If shark.Name <> othershark.Name And shark.Bounds.IntersectsWith(othershark.Bounds) Then
                     tmr_swimmer_move.Enabled = False
                     shark.ChangeDirection(-shark.dirx, -shark.diry)
+                    othershark.ChangeDirection(-othershark.dirx, -othershark.diry)
                     tmr_swimmer_move.Enabled = True
                 End If
             Next
@@ -426,6 +464,5 @@
             REMAINING_RESPAWN_TIME -= 1
         End If
     End Sub
-
 
 End Class

@@ -6,6 +6,7 @@
     Private _diry As Integer = 0
     Private _max_speed As Integer = 50
     Private _acceleration As Integer = 5
+    Private _entered_bounds As Boolean = False
 
     Public Enum EntityType
         SPEEDBOAT
@@ -38,6 +39,15 @@
         End Get
         Set(value As Integer)
             _max_speed = value
+        End Set
+    End Property
+
+    Public Property entered_bounds As Boolean
+        Get
+            Return _entered_bounds
+        End Get
+        Set(value As Boolean)
+            _entered_bounds = value
         End Set
     End Property
 
