@@ -7,6 +7,7 @@
     Dim MAX_SWIMMERS As Integer = 10
     Dim MAX_SHARKS As Integer = 10
     Dim SWIMMER_SPRITE_SIZE As Integer = 75
+    Dim HEART_SPRITE_SIZE As Integer = 50
     Dim FUELBAR_WIDTH As Integer = 450
     Dim LIFEBOAT_WIDTH As Integer = 150
     Dim LIFEBOAT_HEIGHT As Integer = 350
@@ -18,6 +19,7 @@
     Dim current_round As Integer = 1
     Dim current_points As Integer = 0
     Dim rescued_swimmers As Integer = 0
+    Dim current_lives As Integer = 1
 
     Dim RESPAWN_TIME_SECS = 2
     Dim REMAINING_RESPAWN_TIME = RESPAWN_TIME_SECS
@@ -43,10 +45,41 @@
 
         Initialize_Speedboat()
         Initialize_Lifeboat()
+        Initialize_Hearts()
 
         tmr_game.Enabled = True
         tmr_swimmer_spawn.Enabled = True
         tmr_swimmer_move.Enabled = True
+    End Sub
+
+
+    Private Sub Initialize_Hearts()
+        Dim speedboat As Vehicle = Me.Controls("pic_speedboat")
+        Dim lifeboat As Vehicle = Me.Controls("pic_lifeboat")
+
+        Dim SPAWN_PADDING = 100
+        Dim HEART_PADDING = 5
+
+        Dim posx = Me.Width - SPAWN_PADDING
+        Dim posy = (pnl_statusbar.Height) / 2 - (HEART_SPRITE_SIZE / 2)
+
+        For i = 0 To speedboat.max_lives
+            Dim heart As New PictureBox With {
+                .Name = "pic_heart_" & i,
+                .Width = HEART_SPRITE_SIZE,
+                .Height = HEART_SPRITE_SIZE,
+                .Location = New Point(posx - (i * HEART_PADDING) - (i * HEART_SPRITE_SIZE), posy),
+                .Image = My.Resources.heart_sprite,
+                .SizeMode = PictureBoxSizeMode.Zoom,
+                .BackColor = Color.Gold
+            }
+
+            pnl_statusbar.SendToBack()
+            heart.BringToFront()
+            lifeboat.SendToBack()
+
+            Me.Controls.Add(heart)
+        Next
     End Sub
 
     Private Sub Initialize_Speedboat()
@@ -328,12 +361,12 @@
         REMAINING_RESPAWN_TIME = RESPAWN_TIME_SECS
         tmr_respawn.Enabled = True
 
-        If speedboat.current_lives > 0 Then
-            speedboat.current_lives -= 1
+        If current_lives > 0 Then
+            current_lives -= 1
 
-            For i = 1 To speedboat.current_lives
-                Dim heart = Me.Controls("pic_heart_" & i)
-                heart.Visible = False
+            For i = 0 To speedboat.max_lives - current_lives - 1
+                Dim heart As PictureBox = Me.Controls("pic_heart_" & i)
+                Me.Controls.Remove(heart)
             Next
         End If
     End Sub

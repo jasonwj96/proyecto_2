@@ -7,7 +7,6 @@
     Private _current_passengers As Integer = 0
     Private _current_score = 0
     Private _max_lives = 5
-    Private _current_lives = 5
 
     Public Property current_fuel As Integer
         Get
@@ -42,15 +41,6 @@
         End Get
         Set(value As Integer)
             _current_score = value
-        End Set
-    End Property
-
-    Public Property current_lives As Integer
-        Get
-            Return _current_lives
-        End Get
-        Set(value As Integer)
-            _current_lives = value
         End Set
     End Property
 

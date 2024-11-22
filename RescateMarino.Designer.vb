@@ -24,10 +24,6 @@ Partial Class RescateMarino
     Private Sub InitializeComponent()
         components = New ComponentModel.Container()
         PictureBox1 = New PictureBox()
-        pic_heart_2 = New PictureBox()
-        pic_heart_4 = New PictureBox()
-        pic_heart_3 = New PictureBox()
-        pic_heart_5 = New PictureBox()
         pic_clock = New PictureBox()
         lbl_time = New Label()
         tmr_game = New Timer(components)
@@ -44,12 +40,7 @@ Partial Class RescateMarino
         btn_space_key = New PictureBox()
         tmr_swimmer_move = New Timer(components)
         tmr_respawn = New Timer(components)
-        pic_heart_1 = New PictureBox()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
-        CType(pic_heart_2, ComponentModel.ISupportInitialize).BeginInit()
-        CType(pic_heart_4, ComponentModel.ISupportInitialize).BeginInit()
-        CType(pic_heart_3, ComponentModel.ISupportInitialize).BeginInit()
-        CType(pic_heart_5, ComponentModel.ISupportInitialize).BeginInit()
         CType(pic_clock, ComponentModel.ISupportInitialize).BeginInit()
         pnl_statusbar.SuspendLayout()
         CType(btn_a_key, ComponentModel.ISupportInitialize).BeginInit()
@@ -57,7 +48,6 @@ Partial Class RescateMarino
         CType(btn_w_key, ComponentModel.ISupportInitialize).BeginInit()
         CType(btn_d_key, ComponentModel.ISupportInitialize).BeginInit()
         CType(btn_space_key, ComponentModel.ISupportInitialize).BeginInit()
-        CType(pic_heart_1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' PictureBox1
@@ -71,66 +61,6 @@ Partial Class RescateMarino
         PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
         PictureBox1.TabIndex = 0
         PictureBox1.TabStop = False
-        ' 
-        ' pic_heart_2
-        ' 
-        pic_heart_2.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        pic_heart_2.BackColor = Color.Transparent
-        pic_heart_2.ErrorImage = Nothing
-        pic_heart_2.Image = My.Resources.Resources.heart_sprite
-        pic_heart_2.InitialImage = Nothing
-        pic_heart_2.Location = New Point(1491, 20)
-        pic_heart_2.Margin = New Padding(2)
-        pic_heart_2.Name = "pic_heart_2"
-        pic_heart_2.Size = New Size(48, 49)
-        pic_heart_2.SizeMode = PictureBoxSizeMode.Zoom
-        pic_heart_2.TabIndex = 2
-        pic_heart_2.TabStop = False
-        ' 
-        ' pic_heart_4
-        ' 
-        pic_heart_4.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        pic_heart_4.BackColor = Color.Transparent
-        pic_heart_4.ErrorImage = Nothing
-        pic_heart_4.Image = My.Resources.Resources.heart_sprite
-        pic_heart_4.InitialImage = Nothing
-        pic_heart_4.Location = New Point(1386, 20)
-        pic_heart_4.Margin = New Padding(2)
-        pic_heart_4.Name = "pic_heart_4"
-        pic_heart_4.Size = New Size(48, 49)
-        pic_heart_4.SizeMode = PictureBoxSizeMode.Zoom
-        pic_heart_4.TabIndex = 4
-        pic_heart_4.TabStop = False
-        ' 
-        ' pic_heart_3
-        ' 
-        pic_heart_3.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        pic_heart_3.BackColor = Color.Transparent
-        pic_heart_3.ErrorImage = Nothing
-        pic_heart_3.Image = My.Resources.Resources.heart_sprite
-        pic_heart_3.InitialImage = Nothing
-        pic_heart_3.Location = New Point(1439, 20)
-        pic_heart_3.Margin = New Padding(2)
-        pic_heart_3.Name = "pic_heart_3"
-        pic_heart_3.Size = New Size(48, 49)
-        pic_heart_3.SizeMode = PictureBoxSizeMode.Zoom
-        pic_heart_3.TabIndex = 3
-        pic_heart_3.TabStop = False
-        ' 
-        ' pic_heart_5
-        ' 
-        pic_heart_5.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        pic_heart_5.BackColor = Color.Transparent
-        pic_heart_5.ErrorImage = Nothing
-        pic_heart_5.Image = My.Resources.Resources.heart_sprite
-        pic_heart_5.InitialImage = Nothing
-        pic_heart_5.Location = New Point(1332, 20)
-        pic_heart_5.Margin = New Padding(2)
-        pic_heart_5.Name = "pic_heart_5"
-        pic_heart_5.Size = New Size(48, 49)
-        pic_heart_5.SizeMode = PictureBoxSizeMode.Zoom
-        pic_heart_5.TabIndex = 5
-        pic_heart_5.TabStop = False
         ' 
         ' pic_clock
         ' 
@@ -169,12 +99,7 @@ Partial Class RescateMarino
         pnl_statusbar.Controls.Add(lbl_current_points)
         pnl_statusbar.Controls.Add(PictureBox1)
         pnl_statusbar.Controls.Add(lbl_time)
-        pnl_statusbar.Controls.Add(pic_heart_5)
-        pnl_statusbar.Controls.Add(pic_heart_4)
         pnl_statusbar.Controls.Add(pic_clock)
-        pnl_statusbar.Controls.Add(pic_heart_3)
-        pnl_statusbar.Controls.Add(pic_heart_1)
-        pnl_statusbar.Controls.Add(pic_heart_2)
         pnl_statusbar.Controls.Add(btn_fuel_bar_empty)
         pnl_statusbar.Location = New Point(-1, -2)
         pnl_statusbar.Margin = New Padding(2)
@@ -320,21 +245,6 @@ Partial Class RescateMarino
         ' 
         tmr_respawn.Interval = 1000
         ' 
-        ' pic_heart_1
-        ' 
-        pic_heart_1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        pic_heart_1.BackColor = Color.Transparent
-        pic_heart_1.ErrorImage = Nothing
-        pic_heart_1.Image = My.Resources.Resources.heart_sprite
-        pic_heart_1.InitialImage = Nothing
-        pic_heart_1.Location = New Point(1545, 20)
-        pic_heart_1.Margin = New Padding(2)
-        pic_heart_1.Name = "pic_heart_1"
-        pic_heart_1.Size = New Size(48, 49)
-        pic_heart_1.SizeMode = PictureBoxSizeMode.Zoom
-        pic_heart_1.TabIndex = 1
-        pic_heart_1.TabStop = False
-        ' 
         ' RescateMarino
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
@@ -353,10 +263,6 @@ Partial Class RescateMarino
         Name = "RescateMarino"
         Text = "Rescate Marino"
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
-        CType(pic_heart_2, ComponentModel.ISupportInitialize).EndInit()
-        CType(pic_heart_4, ComponentModel.ISupportInitialize).EndInit()
-        CType(pic_heart_3, ComponentModel.ISupportInitialize).EndInit()
-        CType(pic_heart_5, ComponentModel.ISupportInitialize).EndInit()
         CType(pic_clock, ComponentModel.ISupportInitialize).EndInit()
         pnl_statusbar.ResumeLayout(False)
         pnl_statusbar.PerformLayout()
@@ -365,15 +271,10 @@ Partial Class RescateMarino
         CType(btn_w_key, ComponentModel.ISupportInitialize).EndInit()
         CType(btn_d_key, ComponentModel.ISupportInitialize).EndInit()
         CType(btn_space_key, ComponentModel.ISupportInitialize).EndInit()
-        CType(pic_heart_1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
 
     Friend WithEvents PictureBox1 As PictureBox
-    Friend WithEvents pic_heart_2 As PictureBox
-    Friend WithEvents pic_heart_4 As PictureBox
-    Friend WithEvents pic_heart_3 As PictureBox
-    Friend WithEvents pic_heart_5 As PictureBox
     Friend WithEvents pic_clock As PictureBox
     Friend WithEvents lbl_time As Label
     Friend WithEvents tmr_game As Timer
@@ -390,6 +291,5 @@ Partial Class RescateMarino
     Friend WithEvents lbl_current_points As Label
     Friend WithEvents btn_fuel_bar_empty As Button
     Friend WithEvents tmr_respawn As Timer
-    Friend WithEvents pic_heart_1 As PictureBox
 
 End Class
