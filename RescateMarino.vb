@@ -21,13 +21,14 @@
     Dim SWIMMER_POINTS = 10
 
     'Variables de la ronda
+    Dim POINTS_FOR_NEXT_ROUND = 100
     Dim current_round As Integer = 1
     Dim current_points As Integer = 0
     Dim rescued_swimmers As Integer = 0
     Dim current_lives As Integer = 5
     Dim RESPAWN_TIME_SECS = 2
     Dim REMAINING_RESPAWN_TIME = RESPAWN_TIME_SECS
-    Dim MAX_TIMELIMIT = 5
+    Dim MAX_TIMELIMIT = 60
     Dim remaining_time = MAX_TIMELIMIT
 
     'Limites de la pantalla
@@ -52,6 +53,7 @@
         pnl_statusbar.Width = FORM_WIDTH
         pnl_statusbar.Height = STATUSBAR_HEIGHT
         lbl_time.Text = MAX_TIMELIMIT & "s"
+        lbl_level.Text = current_round
 
         Initialize_Speedboat()
         Initialize_Lifeboat()
@@ -95,12 +97,17 @@
 
     Private Sub Initialize_Speedboat()
 
+        Dim speedboat As Vehicle
+        Dim current_fuel As Integer = 100
+
         If Me.Controls.ContainsKey("pic_speedboat") Then
+            speedboat = Me.Controls("pic_speedboat")
+            current_fuel = speedboat.current_fuel
             Me.Controls.RemoveByKey("pic_speedboat")
         End If
 
         'Colocar el bote en el centro de la pantalla
-        Dim speedboat As New Vehicle("pic_speedboat", GameEntity.EntityType.SPEEDBOAT,
+        speedboat = New Vehicle("pic_speedboat", GameEntity.EntityType.SPEEDBOAT,
             (Me.Width / 2) - 100 / 2,
             (Me.Height / 2) - 100 / 2,
             SWIMMER_SPRITE_SIZE, SWIMMER_SPRITE_SIZE)
@@ -108,6 +115,7 @@
         speedboat.BackColor = Color.Transparent
         speedboat.max_speed = 5
         speedboat.acceleration = 1
+        speedboat.current_fuel = current_fuel
         speedboat.Visible = True
 
         Me.Controls.Add(speedboat)
@@ -225,9 +233,6 @@
     End Sub
 
     Private Sub Move_Lifeboat()
-
-        Exit Sub
-
         Dim lifeboat As GameEntity = Me.Controls("pic_lifeboat")
 
         If lifeboat IsNot Nothing Then
@@ -247,11 +252,9 @@
 
         If speedboat.Bounds.IntersectsWith(lifeboat.Bounds) Or speedboat.Bounds.IntersectsWith(pnl_statusbar.Bounds) Then
             speedboat.ChangeDirection(-speedboat.dirx, -speedboat.diry)
-            speedboat.MoveEntity()
         End If
 
         If speedboat.Bounds.IntersectsWith(lifeboat.Bounds) Then
-
             If Math.Abs(speedboat.dirx) >= 5 Or Math.Abs(speedboat.diry) >= 5 And speedboat.Tag <> "destroyed" Then
                 Destroy_Speedboat()
             End If
@@ -296,6 +299,8 @@
         If tmr_respawn.Enabled = False Then
             Dim speedboat As Vehicle = Me.Controls("pic_speedboat")
             lbl_current_points.Text = speedboat.current_score
+            current_round = Math.Ceiling(speedboat.current_score / POINTS_FOR_NEXT_ROUND)
+            lbl_level.Text = current_round + 1
         End If
     End Sub
 
@@ -474,9 +479,10 @@
         speedboat.ChangeDirection(0, 0)
         speedboat.Image = My.Resources.explosion_sprite1
         speedboat.acceleration = 0
-        speedboat.current_fuel = 0
         btn_fuel_bar.Width = FUELBAR_WIDTH * (speedboat.current_fuel / speedboat.max_fuel)
         REMAINING_RESPAWN_TIME = RESPAWN_TIME_SECS
+
+        tmr_game.Enabled = False
         tmr_respawn.Enabled = True
 
         If current_lives > 0 Then
@@ -493,13 +499,14 @@
         If REMAINING_RESPAWN_TIME = 0 Then
             Initialize_Speedboat()
             tmr_respawn.Enabled = False
+            tmr_game.Enabled = True
         ElseIf REMAINING_RESPAWN_TIME > 0 Then
             REMAINING_RESPAWN_TIME -= 1
         End If
     End Sub
 
     Private Sub tmr_shark_spawn_Tick(sender As Object, e As EventArgs) Handles tmr_shark_spawn.Tick
-        Initialize_Swimmer(GameEntity.EntityType.SHARK)
+        'Initialize_Swimmer(GameEntity.EntityType.SHARK)
     End Sub
     Private Sub tmr_swimmer_spawn_Tick(sender As Object, e As EventArgs) Handles tmr_swimmer_spawn.Tick
         Initialize_Swimmer(GameEntity.EntityType.HUMAN)

@@ -28,6 +28,8 @@ Partial Class RescateMarino
         lbl_time = New Label()
         tmr_game = New Timer(components)
         pnl_statusbar = New Panel()
+        Label2 = New Label()
+        lbl_level = New Label()
         Label1 = New Label()
         lbl_current_points = New Label()
         btn_fuel_bar_empty = New Button()
@@ -96,6 +98,8 @@ Partial Class RescateMarino
         ' pnl_statusbar
         ' 
         pnl_statusbar.BackColor = Color.Gold
+        pnl_statusbar.Controls.Add(Label2)
+        pnl_statusbar.Controls.Add(lbl_level)
         pnl_statusbar.Controls.Add(Label1)
         pnl_statusbar.Controls.Add(lbl_current_points)
         pnl_statusbar.Controls.Add(PictureBox1)
@@ -107,6 +111,32 @@ Partial Class RescateMarino
         pnl_statusbar.Name = "pnl_statusbar"
         pnl_statusbar.Size = New Size(1877, 85)
         pnl_statusbar.TabIndex = 12
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.BackColor = Color.Transparent
+        Label2.Font = New Font("Arial Black", 16F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label2.ForeColor = Color.Black
+        Label2.Location = New Point(1278, 23)
+        Label2.Margin = New Padding(2, 0, 2, 0)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(120, 45)
+        Label2.TabIndex = 18
+        Label2.Text = "Nivel:"
+        ' 
+        ' lbl_level
+        ' 
+        lbl_level.AutoSize = True
+        lbl_level.BackColor = Color.Transparent
+        lbl_level.Font = New Font("Arial Black", 16F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lbl_level.ForeColor = Color.Black
+        lbl_level.Location = New Point(1395, 23)
+        lbl_level.Margin = New Padding(2, 0, 2, 0)
+        lbl_level.Name = "lbl_level"
+        lbl_level.Size = New Size(41, 45)
+        lbl_level.TabIndex = 17
+        lbl_level.Text = "0"
         ' 
         ' Label1
         ' 
@@ -249,7 +279,7 @@ Partial Class RescateMarino
         ' 
         ' tmr_shark_spawn
         ' 
-        tmr_shark_spawn.Interval = 3000
+        tmr_shark_spawn.Interval = 5000
         ' 
         ' tmr_round
         ' 
@@ -303,5 +333,7 @@ Partial Class RescateMarino
     Friend WithEvents tmr_respawn As Timer
     Friend WithEvents tmr_shark_spawn As Timer
     Friend WithEvents tmr_round As Timer
+    Friend WithEvents Label2 As Label
+    Friend WithEvents lbl_level As Label
 
 End Class
