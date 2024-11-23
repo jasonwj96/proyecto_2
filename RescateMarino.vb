@@ -23,7 +23,6 @@
     Dim POINTS_FOR_NEXT_ROUND = 10
     Dim current_round As Integer = 1
     Dim current_points As Integer = 0
-    Dim rescued_swimmers As Integer = 0
     Dim current_lives As Integer = 5
     Dim RESPAWN_TIME_SECS = 2
     Dim REMAINING_RESPAWN_TIME = RESPAWN_TIME_SECS
@@ -299,9 +298,13 @@
         If tmr_respawn.Enabled = False Then
             Dim speedboat As Vehicle = Me.Controls("pic_speedboat")
             lbl_current_points.Text = speedboat.current_score
+
+            If Math.Ceiling(speedboat.current_score / POINTS_FOR_NEXT_ROUND) > current_round Then
+                Reset_Game()
+            End If
+
             current_round = Math.Ceiling(speedboat.current_score / POINTS_FOR_NEXT_ROUND)
             lbl_level.Text = current_round + 1
-            MAX_SHARKS = current_round + 1
 
             If current_round > 9 Then
                 Stop_Game()
@@ -315,6 +318,8 @@
             For Each element As Swimmer In vpic_sharks
                 element.acceleration = 1 * current_round
             Next
+
+            MAX_SHARKS = current_round + 1
         End If
     End Sub
 
@@ -468,6 +473,30 @@
 
     Private Sub Reset_Game()
 
+        Dim speedboat As Vehicle = Me.Controls("pic_speedboat")
+
+        Stop_Game()
+
+        For Each element In vpic_swimmers
+            Me.Controls.Remove(element)
+        Next
+
+        For Each element In vpic_sharks
+            Me.Controls.Remove(element)
+        Next
+
+        vpic_swimmers.Clear()
+        vpic_sharks.Clear()
+
+        speedboat.current_passengers = 0
+        speedboat.ChangeDirection(0, 0)
+        speedboat.Location = New Point(Me.Width / 2, Me.Height / 2)
+        speedboat.current_fuel = speedboat.max_fuel
+        btn_fuel_bar.Width = FUELBAR_WIDTH * (speedboat.current_fuel / speedboat.max_fuel)
+
+        remaining_time = MAX_TIMELIMIT
+
+        Start_Game()
     End Sub
 
     Private Sub tmr_round_Tick(sender As Object, e As EventArgs) Handles tmr_round.Tick
@@ -476,6 +505,7 @@
             lbl_time.Text = remaining_time & "s"
             Handle_fuel()
         Else
+            Reset_Game()
             Stop_Game()
         End If
     End Sub
@@ -539,4 +569,8 @@
         Return MyBase.ProcessCmdKey(msg, keyData)
     End Function
 
+    Private Sub pic_info_Click(sender As Object, e As EventArgs) Handles pic_info.Click
+        Dim info_form As Info = New Info()
+        info_form.Show()
+    End Sub
 End Class

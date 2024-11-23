@@ -44,6 +44,7 @@ Partial Class RescateMarino
         tmr_respawn = New Timer(components)
         tmr_shark_spawn = New Timer(components)
         tmr_round = New Timer(components)
+        pic_info = New PictureBox()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         CType(pic_clock, ComponentModel.ISupportInitialize).BeginInit()
         pnl_statusbar.SuspendLayout()
@@ -52,6 +53,7 @@ Partial Class RescateMarino
         CType(btn_w_key, ComponentModel.ISupportInitialize).BeginInit()
         CType(btn_d_key, ComponentModel.ISupportInitialize).BeginInit()
         CType(btn_space_key, ComponentModel.ISupportInitialize).BeginInit()
+        CType(pic_info, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' PictureBox1
@@ -284,12 +286,24 @@ Partial Class RescateMarino
         ' 
         tmr_round.Interval = 1000
         ' 
+        ' pic_info
+        ' 
+        pic_info.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
+        pic_info.Image = My.Resources.Resources.information_icon
+        pic_info.Location = New Point(21, 1279)
+        pic_info.Name = "pic_info"
+        pic_info.Size = New Size(50, 50)
+        pic_info.SizeMode = PictureBoxSizeMode.Zoom
+        pic_info.TabIndex = 18
+        pic_info.TabStop = False
+        ' 
         ' RescateMarino
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
         ClientSize = New Size(1878, 1344)
+        Controls.Add(pic_info)
         Controls.Add(btn_fuel_bar)
         Controls.Add(btn_space_key)
         Controls.Add(btn_w_key)
@@ -310,6 +324,7 @@ Partial Class RescateMarino
         CType(btn_w_key, ComponentModel.ISupportInitialize).EndInit()
         CType(btn_d_key, ComponentModel.ISupportInitialize).EndInit()
         CType(btn_space_key, ComponentModel.ISupportInitialize).EndInit()
+        CType(pic_info, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
 
@@ -334,5 +349,6 @@ Partial Class RescateMarino
     Friend WithEvents tmr_round As Timer
     Friend WithEvents Label2 As Label
     Friend WithEvents lbl_level As Label
+    Friend WithEvents pic_info As PictureBox
 
 End Class
