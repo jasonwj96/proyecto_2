@@ -29,7 +29,7 @@
     Dim REMAINING_RESPAWN_TIME = RESPAWN_TIME_SECS
     Dim MAX_TIMELIMIT = 60
     Dim remaining_time = MAX_TIMELIMIT
-    Dim MAX_SHARKS As Integer = current_round * 10
+    Dim MAX_SHARKS As Integer = current_round
 
     'Limites de la pantalla
     Dim X_LEFT_BOUND As Integer = 0
