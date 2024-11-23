@@ -71,7 +71,7 @@ Partial Class RescateMarino
         pic_clock.Anchor = AnchorStyles.Top
         pic_clock.BackColor = Color.Transparent
         pic_clock.Image = My.Resources.Resources.clock_sprite
-        pic_clock.Location = New Point(741, 17)
+        pic_clock.Location = New Point(742, 17)
         pic_clock.Margin = New Padding(2)
         pic_clock.Name = "pic_clock"
         pic_clock.Size = New Size(62, 55)
@@ -97,7 +97,7 @@ Partial Class RescateMarino
         ' 
         ' pnl_statusbar
         ' 
-        pnl_statusbar.BackColor = Color.Gold
+        pnl_statusbar.BackColor = Color.DodgerBlue
         pnl_statusbar.Controls.Add(Label2)
         pnl_statusbar.Controls.Add(lbl_level)
         pnl_statusbar.Controls.Add(Label1)

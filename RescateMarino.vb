@@ -6,7 +6,7 @@
 
     Dim STATUSBAR_HEIGHT As Integer = 85
     Dim TITLEBAR_HEIGHT As Integer = 40
-    Dim MAX_SWIMMERS As Integer = 9
+    Dim MAX_SWIMMERS As Integer = 10
 
     Dim SWIMMER_SPRITE_SIZE As Integer = 75
     Dim HEART_SPRITE_SIZE As Integer = 50
@@ -81,7 +81,7 @@
                 .Location = New Point(posx - (i * HEART_PADDING) - (i * HEART_SPRITE_SIZE), posy),
                 .Image = My.Resources.heart_sprite,
                 .SizeMode = PictureBoxSizeMode.Zoom,
-                .BackColor = Color.Gold
+                .BackColor = Color.DodgerBlue
             }
 
             pnl_statusbar.SendToBack()
@@ -200,7 +200,7 @@
                 diry = If(rand.Next(0, 2) = 0, -1, 1)
         End Select
 
-        If current_list.Count <= limit Then
+        If current_list.Count < limit Then
 
             new_swimmer = New Swimmer(name_prefix & current_list.Count + 1,
                                       type,
@@ -301,7 +301,12 @@
             lbl_current_points.Text = speedboat.current_score
             current_round = Math.Ceiling(speedboat.current_score / POINTS_FOR_NEXT_ROUND)
             lbl_level.Text = current_round + 1
-            MAX_SHARKS = current_round
+            MAX_SHARKS = current_round + 1
+
+            If current_round > 9 Then
+                Stop_Game()
+                Exit Sub
+            End If
 
             For Each element As Swimmer In vpic_swimmers
                 element.acceleration = 1 * current_round
@@ -459,6 +464,10 @@
         tmr_shark_spawn.Enabled = False
         tmr_swimmer_move.Enabled = False
         tmr_round.Enabled = False
+    End Sub
+
+    Private Sub Reset_Game()
+
     End Sub
 
     Private Sub tmr_round_Tick(sender As Object, e As EventArgs) Handles tmr_round.Tick
