@@ -93,6 +93,7 @@ Partial Class RescateMarino
         ' 
         ' tmr_game
         ' 
+        tmr_game.Interval = 10
         ' 
         ' pnl_statusbar
         ' 
