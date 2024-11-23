@@ -6,8 +6,8 @@
 
     Dim STATUSBAR_HEIGHT As Integer = 85
     Dim TITLEBAR_HEIGHT As Integer = 40
-    Dim MAX_SWIMMERS As Integer = 10
-    Dim MAX_SHARKS As Integer = 50
+    Dim MAX_SWIMMERS As Integer = 100
+    Dim MAX_SHARKS As Integer = 10
 
     Dim SWIMMER_SPRITE_SIZE As Integer = 75
     Dim HEART_SPRITE_SIZE As Integer = 50
@@ -16,7 +16,7 @@
     Dim LIFEBOAT_HEIGHT As Integer = 350
     Dim SPAWN_PADDING As Integer = 50
     Dim LIFEBOAT_SPAWN_PADDING = 40
-    Dim SAFEZONE_PADDING = 5
+    Dim SAFEZONE_PADDING = 15
 
     Dim SWIMMER_POINTS = 10
 
@@ -54,6 +54,7 @@
 
         tmr_game.Enabled = True
         tmr_swimmer_spawn.Enabled = True
+        tmr_shark_spawn.Enabled = True
         tmr_swimmer_move.Enabled = True
     End Sub
 
@@ -343,7 +344,6 @@
 
     Private Sub tmr_swimmer_spawn_Tick(sender As Object, e As EventArgs) Handles tmr_swimmer_spawn.Tick
         Initialize_Swimmer(GameEntity.EntityType.HUMAN)
-        '   Initialize_Swimmer(GameEntity.EntityType.SHARK)
     End Sub
 
     Private Sub tmr_swimmer_move_Tick(sender As Object, e As EventArgs) Handles tmr_swimmer_move.Tick
@@ -354,13 +354,12 @@
 
         For Each swimmer As Swimmer In vpic_swimmers
 
-            If swimmer.Location.X < (X_LEFT_BOUND + SAFEZONE_PADDING) Or swimmer.Location.X >
-                (X_RIGHT_BOUND - SWIMMER_SPRITE_SIZE - LIFEBOAT_WIDTH - LIFEBOAT_SPAWN_PADDING - SAFEZONE_PADDING) Then
+            If swimmer.Location.X <= X_LEFT_BOUND + SAFEZONE_PADDING Or swimmer.Location.X >=
+                X_RIGHT_BOUND - swimmer.Width - SAFEZONE_PADDING - LIFEBOAT_WIDTH - LIFEBOAT_SPAWN_PADDING Then
                 swimmer.dirx = -swimmer.dirx
             End If
 
-            If swimmer.Location.Y < (pnl_statusbar.Height + SAFEZONE_PADDING) Or swimmer.Location.Y >
-                (Y_BOTTOM_BOUND - swimmer.Height - SAFEZONE_PADDING - 50) Then
+            If swimmer.Location.Y <= pnl_statusbar.Height Or swimmer.Location.Y >= Y_BOTTOM_BOUND - swimmer.Height - TITLEBAR_HEIGHT - SAFEZONE_PADDING Then
                 swimmer.diry = -swimmer.diry
             End If
 
@@ -380,16 +379,15 @@
 
             For Each otherswimmer As Swimmer In vpic_swimmers
                 If swimmer.Name <> otherswimmer.Name And swimmer.Bounds.IntersectsWith(otherswimmer.Bounds) Then
-                    tmr_swimmer_move.Enabled = False
                     swimmer.ChangeDirection(-swimmer.dirx, -swimmer.diry)
-                    tmr_swimmer_move.Enabled = True
                 End If
             Next
         Next
 
         For Each shark As Swimmer In vpic_sharks
 
-            If shark.Location.X >= X_LEFT_BOUND And shark.Location.X <= X_RIGHT_BOUND And shark.Location.Y >= Y_TOP_BOUND And shark.Location.Y <= Y_BOTTOM_BOUND Then
+            If shark.Location.X >= X_LEFT_BOUND And shark.Location.X <= X_RIGHT_BOUND - shark.Width And
+                shark.Location.Y >= Y_TOP_BOUND + STATUSBAR_HEIGHT And shark.Location.Y <= Y_BOTTOM_BOUND - shark.Height Then
                 shark.entered_bounds = True
             End If
 
@@ -469,4 +467,7 @@
         End If
     End Sub
 
+    Private Sub tmr_shark_spawn_Tick(sender As Object, e As EventArgs) Handles tmr_shark_spawn.Tick
+        Initialize_Swimmer(GameEntity.EntityType.SHARK)
+    End Sub
 End Class

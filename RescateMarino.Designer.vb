@@ -40,6 +40,7 @@ Partial Class RescateMarino
         btn_space_key = New PictureBox()
         tmr_swimmer_move = New Timer(components)
         tmr_respawn = New Timer(components)
+        tmr_shark_spawn = New Timer(components)
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         CType(pic_clock, ComponentModel.ISupportInitialize).BeginInit()
         pnl_statusbar.SuspendLayout()
@@ -161,7 +162,7 @@ Partial Class RescateMarino
         ' 
         ' tmr_swimmer_spawn
         ' 
-        tmr_swimmer_spawn.Interval = 1000
+        tmr_swimmer_spawn.Interval = 5000
         ' 
         ' btn_a_key
         ' 
@@ -245,6 +246,10 @@ Partial Class RescateMarino
         ' 
         tmr_respawn.Interval = 1000
         ' 
+        ' tmr_shark_spawn
+        ' 
+        tmr_shark_spawn.Interval = 1000
+        ' 
         ' RescateMarino
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
@@ -291,5 +296,6 @@ Partial Class RescateMarino
     Friend WithEvents lbl_current_points As Label
     Friend WithEvents btn_fuel_bar_empty As Button
     Friend WithEvents tmr_respawn As Timer
+    Friend WithEvents tmr_shark_spawn As Timer
 
 End Class
