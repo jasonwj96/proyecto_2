@@ -29,7 +29,7 @@
     Dim REMAINING_RESPAWN_TIME = RESPAWN_TIME_SECS
     Dim MAX_TIMELIMIT = 60
     Dim remaining_time = MAX_TIMELIMIT
-    Dim MAX_SHARKS As Integer = current_round
+    Dim MAX_SHARKS As Integer = current_round * 10
 
     'Limites de la pantalla
     Dim X_LEFT_BOUND As Integer = 0
@@ -58,6 +58,7 @@
         Initialize_Speedboat()
         Initialize_Lifeboat()
         Initialize_Hearts()
+        Initialize_Swimmer(GameEntity.EntityType.HUMAN)
 
         tmr_game.Enabled = True
         tmr_swimmer_spawn.Enabled = True
@@ -140,8 +141,8 @@
     Private Sub Initialize_Swimmer(type As GameEntity.EntityType)
 
         Dim new_swimmer As Swimmer
-        Dim swimmer_speed = 20
-        Dim swimmer_acceleration = 5
+        Dim swimmer_speed = 100
+        Dim swimmer_acceleration = 5 * current_round
         Dim current_list As List(Of PictureBox)
         Dim name_prefix As String
         Dim tag As String
@@ -163,22 +164,24 @@
 
                 Dim positionChoice As Integer = rand.Next(1, 5) ' 1 = left, 2 = right, 3 = top, 4 = bottom
 
+                positionChoice = 4
+
                 Select Case positionChoice
                     Case 1 ' Left edge, outside the screen
                         posx = X_LEFT_BOUND - SWIMMER_SPRITE_SIZE
-                        posy = rand.Next(Y_TOP_BOUND - SWIMMER_SPRITE_SIZE, Y_BOTTOM_BOUND + SWIMMER_SPRITE_SIZE)
+                        posy = rand.Next(Y_TOP_BOUND + TITLEBAR_HEIGHT + STATUSBAR_HEIGHT, Y_BOTTOM_BOUND + SWIMMER_SPRITE_SIZE)
 
                     Case 2 ' Right edge, outside the screen
                         posx = X_RIGHT_BOUND + SWIMMER_SPRITE_SIZE
                         posy = rand.Next(Y_TOP_BOUND - SWIMMER_SPRITE_SIZE, Y_BOTTOM_BOUND + SWIMMER_SPRITE_SIZE)
 
                     Case 3 ' Top edge, outside the screen
-                        posx = rand.Next(X_LEFT_BOUND - SWIMMER_SPRITE_SIZE, X_RIGHT_BOUND + SWIMMER_SPRITE_SIZE)
-                        posy = Y_TOP_BOUND - SWIMMER_SPRITE_SIZE
+                        posx = rand.Next(X_LEFT_BOUND + STATUSBAR_HEIGHT + TITLEBAR_HEIGHT - SWIMMER_SPRITE_SIZE, X_RIGHT_BOUND + SWIMMER_SPRITE_SIZE)
+                        posy = Y_TOP_BOUND + TITLEBAR_HEIGHT + STATUSBAR_HEIGHT
 
                     Case 4 ' Bottom edge, outside the screen
                         posx = rand.Next(X_LEFT_BOUND - SWIMMER_SPRITE_SIZE, X_RIGHT_BOUND + SWIMMER_SPRITE_SIZE)
-                        posy = Y_BOTTOM_BOUND + SWIMMER_SPRITE_SIZE
+                        posy = Y_BOTTOM_BOUND + SWIMMER_SPRITE_SIZE + 5
                 End Select
 
                 If posx <= Me.Width / 2 Then
@@ -217,6 +220,7 @@
 
             new_swimmer.Tag = tag
             new_swimmer.ChangeDirection(dirx, diry)
+            new_swimmer.SizeMode = PictureBoxSizeMode.Zoom
 
             If new_swimmer.Tag = "shark" Then
             End If
@@ -260,6 +264,8 @@
             End If
 
             speedboat.AddFuel(speedboat.max_fuel)
+            remaining_time = MAX_TIMELIMIT
+            lbl_time.Text = remaining_time & "s"
             btn_fuel_bar.Width = FUELBAR_WIDTH * (speedboat.current_fuel / speedboat.max_fuel)
             speedboat.current_passengers = 0
             Refresh_points()
@@ -373,22 +379,19 @@
 
         For Each swimmer As Swimmer In vpic_swimmers
 
-            If swimmer.Location.X <= X_LEFT_BOUND + 10 Or swimmer.Location.X >=
-                X_RIGHT_BOUND - swimmer.Width - SAFEZONE_PADDING - LIFEBOAT_WIDTH - LIFEBOAT_SPAWN_PADDING Then
+            If swimmer.Location.X <= X_LEFT_BOUND Or
+                swimmer.Location.X >= X_RIGHT_BOUND - SWIMMER_SPRITE_SIZE Then
                 swimmer.dirx = -swimmer.dirx
-                swimmer.MoveEntity()
-                swimmer.MoveEntity()
             End If
 
-            If swimmer.Location.Y <= pnl_statusbar.Height Or swimmer.Location.Y >= Y_BOTTOM_BOUND - swimmer.Height - TITLEBAR_HEIGHT - SAFEZONE_PADDING Then
+            If swimmer.Location.Y <= STATUSBAR_HEIGHT + TITLEBAR_HEIGHT Or
+                swimmer.Location.Y >= Y_BOTTOM_BOUND - SWIMMER_SPRITE_SIZE - TITLEBAR_HEIGHT Then
                 swimmer.diry = -swimmer.diry
-                swimmer.MoveEntity()
-                swimmer.MoveEntity()
             End If
 
-            swimmer?.MoveEntity()
+            swimmer.MoveEntity()
 
-            If swimmer?.Bounds.IntersectsWith(speedboat.Bounds) And swimmer.Tag <> "dead" Then
+            If swimmer.Bounds.IntersectsWith(speedboat.Bounds) And swimmer.Tag <> "dead" Then
                 speedboat.AddPassenger(swimmer)
             End If
 
@@ -407,60 +410,52 @@
             Next
         Next
 
+        'Mover los tiburones
         For Each shark As Swimmer In vpic_sharks
             If shark.Location.X >= X_LEFT_BOUND And
-                shark.Location.X <= X_RIGHT_BOUND - SWIMMER_SPRITE_SIZE - LIFEBOAT_WIDTH - LIFEBOAT_SPAWN_PADDING And
-                shark.Location.Y >= Y_TOP_BOUND + STATUSBAR_HEIGHT + TITLEBAR_HEIGHT And
-                shark.Location.Y <= Y_BOTTOM_BOUND - SWIMMER_SPRITE_SIZE - TITLEBAR_HEIGHT Then
+                shark.Location.X <= X_RIGHT_BOUND - SWIMMER_SPRITE_SIZE And
+                shark.Location.Y >= Y_TOP_BOUND And
+                shark.Location.Y <= Y_BOTTOM_BOUND - SWIMMER_SPRITE_SIZE - TITLEBAR_HEIGHT - STATUSBAR_HEIGHT Then
                 shark.entered_bounds = True
             End If
 
-            If shark.Location.X <= X_LEFT_BOUND Or shark.Location.X >= X_RIGHT_BOUND - LIFEBOAT_WIDTH - LIFEBOAT_SPAWN_PADDING And
-                shark.entered_bounds = True Then
-                tmr_swimmer_move.Enabled = False
-                shark.dirx = -shark.dirx
-                shark.MoveEntity()
-                tmr_swimmer_move.Enabled = True
+            If shark.entered_bounds Then
+                If shark.Location.X <= X_LEFT_BOUND Or
+                    shark.Location.X >= X_RIGHT_BOUND - SWIMMER_SPRITE_SIZE Then
+                    shark.dirx = -shark.dirx
+                End If
+
+                If shark.Location.Y <= Y_TOP_BOUND Or
+                    shark.Location.Y >= Y_BOTTOM_BOUND - SWIMMER_SPRITE_SIZE - TITLEBAR_HEIGHT Then
+                    shark.diry = -shark.diry
+                End If
             End If
 
-            If shark.Location.Y <= STATUSBAR_HEIGHT + TITLEBAR_HEIGHT Or shark.Location.Y >= Y_BOTTOM_BOUND - SWIMMER_SPRITE_SIZE - TITLEBAR_HEIGHT And
-                shark.entered_bounds = True Then
-                tmr_swimmer_move.Enabled = False
-                shark.diry = -shark.diry
-                shark.MoveEntity()
-                tmr_swimmer_move.Enabled = True
-            End If
+            shark.MoveEntity()
 
-            shark?.MoveEntity()
-
-            If shark?.Bounds.IntersectsWith(speedboat.Bounds) And speedboat.Tag <> "destroyed" Then
+            If shark.Bounds.IntersectsWith(speedboat.Bounds) And speedboat.Tag <> "destroyed" Then
                 Destroy_Speedboat()
             End If
 
-            If shark?.Bounds.IntersectsWith(lifeboat.Bounds) And shark.entered_bounds = True Then
+            If shark.Bounds.IntersectsWith(lifeboat.Bounds) And shark.entered_bounds Then
                 tmr_swimmer_move.Enabled = False
                 tmr_game.Enabled = False
                 shark.ChangeDirection(-shark.dirx, -shark.diry)
-                shark.MoveEntity()
                 tmr_swimmer_move.Enabled = True
                 tmr_game.Enabled = True
             End If
 
             For Each othershark As Swimmer In vpic_sharks
-                If shark.Name <> othershark.Name And shark.Bounds.IntersectsWith(othershark.Bounds) Then
+                If shark.Name <> othershark.Name And shark.Bounds.IntersectsWith(othershark.Bounds) And shark.entered_bounds Then
                     tmr_swimmer_move.Enabled = False
                     shark.ChangeDirection(-shark.dirx, -shark.diry)
-                    shark.MoveEntity()
-                    othershark.ChangeDirection(-othershark.dirx, -othershark.diry)
-                    othershark.MoveEntity()
                     tmr_swimmer_move.Enabled = True
                 End If
             Next
 
             For Each otherswimmer As Swimmer In vpic_swimmers
-                If shark.Name <> otherswimmer.Name And shark.Bounds.IntersectsWith(otherswimmer.Bounds) Then
+                If shark.Name <> otherswimmer.Name And shark.Bounds.IntersectsWith(otherswimmer.Bounds) And shark.entered_bounds Then
                     tmr_swimmer_move.Enabled = False
-
                     otherswimmer.Image = My.Resources.tombstone_sprite
                     otherswimmer.points = 0
                     otherswimmer.ChangeDirection(0, 0)
@@ -481,7 +476,6 @@
         btn_fuel_bar.Width = FUELBAR_WIDTH * (speedboat.current_fuel / speedboat.max_fuel)
         REMAINING_RESPAWN_TIME = RESPAWN_TIME_SECS
 
-        tmr_game.Enabled = False
         tmr_respawn.Enabled = True
 
         If current_lives > 0 Then
@@ -498,14 +492,13 @@
         If REMAINING_RESPAWN_TIME = 0 Then
             Initialize_Speedboat()
             tmr_respawn.Enabled = False
-            tmr_game.Enabled = True
         ElseIf REMAINING_RESPAWN_TIME > 0 Then
             REMAINING_RESPAWN_TIME -= 1
         End If
     End Sub
 
     Private Sub tmr_shark_spawn_Tick(sender As Object, e As EventArgs) Handles tmr_shark_spawn.Tick
-        'Initialize_Swimmer(GameEntity.EntityType.SHARK)
+        Initialize_Swimmer(GameEntity.EntityType.SHARK)
     End Sub
     Private Sub tmr_swimmer_spawn_Tick(sender As Object, e As EventArgs) Handles tmr_swimmer_spawn.Tick
         Initialize_Swimmer(GameEntity.EntityType.HUMAN)

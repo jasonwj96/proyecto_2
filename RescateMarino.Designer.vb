@@ -93,7 +93,6 @@ Partial Class RescateMarino
         ' 
         ' tmr_game
         ' 
-        tmr_game.Interval = 10
         ' 
         ' pnl_statusbar
         ' 
@@ -271,7 +270,6 @@ Partial Class RescateMarino
         ' 
         ' tmr_swimmer_move
         ' 
-        tmr_swimmer_move.Interval = 50
         ' 
         ' tmr_respawn
         ' 
