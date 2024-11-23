@@ -6,7 +6,7 @@
 
     Dim STATUSBAR_HEIGHT As Integer = 85
     Dim TITLEBAR_HEIGHT As Integer = 40
-    Dim MAX_SWIMMERS As Integer = 10
+    Dim MAX_SWIMMERS As Integer = 9
 
     Dim SWIMMER_SPRITE_SIZE As Integer = 75
     Dim HEART_SPRITE_SIZE As Integer = 50
@@ -20,7 +20,7 @@
     Dim SWIMMER_POINTS = 10
 
     'Variables de la ronda
-    Dim POINTS_FOR_NEXT_ROUND = 100
+    Dim POINTS_FOR_NEXT_ROUND = 10
     Dim current_round As Integer = 1
     Dim current_points As Integer = 0
     Dim rescued_swimmers As Integer = 0
@@ -138,7 +138,7 @@
 
         Dim new_swimmer As Swimmer
         Dim swimmer_speed = 100
-        Dim swimmer_acceleration = 5 * current_round
+        Dim swimmer_acceleration = 1 * current_round
         Dim current_list As List(Of PictureBox)
         Dim name_prefix As String
         Dim tag As String
@@ -161,19 +161,19 @@
                 Dim positionChoice As Integer = rand.Next(1, 5)
 
                 Select Case positionChoice
-                    Case 1 ' Left edge, outside the screen
+                    Case 1
                         posx = X_LEFT_BOUND - SWIMMER_SPRITE_SIZE
                         posy = rand.Next(Y_TOP_BOUND + TITLEBAR_HEIGHT + STATUSBAR_HEIGHT, Y_BOTTOM_BOUND + SWIMMER_SPRITE_SIZE)
 
-                    Case 2 ' Right edge, outside the screen
+                    Case 2
                         posx = X_RIGHT_BOUND + SWIMMER_SPRITE_SIZE
                         posy = rand.Next(Y_TOP_BOUND - SWIMMER_SPRITE_SIZE, Y_BOTTOM_BOUND + SWIMMER_SPRITE_SIZE)
 
-                    Case 3 ' Top edge, outside the screen
+                    Case 3
                         posx = rand.Next(X_LEFT_BOUND + STATUSBAR_HEIGHT + TITLEBAR_HEIGHT - SWIMMER_SPRITE_SIZE, X_RIGHT_BOUND + SWIMMER_SPRITE_SIZE)
                         posy = Y_TOP_BOUND - SWIMMER_SPRITE_SIZE
 
-                    Case 4 ' Bottom edge, outside the screen
+                    Case 4
                         posx = rand.Next(X_LEFT_BOUND - SWIMMER_SPRITE_SIZE, X_RIGHT_BOUND + SWIMMER_SPRITE_SIZE)
                         posy = Y_BOTTOM_BOUND + SWIMMER_SPRITE_SIZE
                 End Select
@@ -200,7 +200,7 @@
                 diry = If(rand.Next(0, 2) = 0, -1, 1)
         End Select
 
-        If current_list.Count < limit Then
+        If current_list.Count <= limit Then
 
             new_swimmer = New Swimmer(name_prefix & current_list.Count + 1,
                                       type,
@@ -302,6 +302,14 @@
             current_round = Math.Ceiling(speedboat.current_score / POINTS_FOR_NEXT_ROUND)
             lbl_level.Text = current_round + 1
             MAX_SHARKS = current_round
+
+            For Each element As Swimmer In vpic_swimmers
+                element.acceleration = 1 * current_round
+            Next
+
+            For Each element As Swimmer In vpic_sharks
+                element.acceleration = 1 * current_round
+            Next
         End If
     End Sub
 
@@ -338,7 +346,7 @@
             End If
 
             For Each otherswimmer As Swimmer In vpic_swimmers
-                If swimmer.Name <> otherswimmer.Name And swimmer.Bounds.IntersectsWith(otherswimmer.Bounds) Then
+                If swimmer.Name <> otherswimmer.Name And swimmer.Bounds.IntersectsWith(otherswimmer.Bounds) And otherswimmer.Tag <> " dead" Then
                     swimmer.ChangeDirection(-swimmer.dirx, -swimmer.diry)
                 End If
             Next
