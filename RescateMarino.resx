@@ -130,6 +130,9 @@
     <value>634, 26</value>
   </metadata>
   <metadata name="tmr_shark_spawn.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>802, 26</value>
+    <value>797, 27</value>
+  </metadata>
+  <metadata name="tmr_round.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>999, 27</value>
   </metadata>
 </root>

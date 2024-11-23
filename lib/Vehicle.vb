@@ -1,8 +1,8 @@
 ﻿Public Class Vehicle
     Inherits GameEntity
 
-    Private _max_fuel As Integer = 10000 'Tamaño en pixeles de la barra de combustible
-    Private _current_fuel As Integer = 10000 'Tamaño en pixeles de la barra de combustible
+    Private _max_fuel As Integer = 100
+    Private _current_fuel As Integer = 100
     Private _max_passengers As Integer = 3
     Private _current_passengers As Integer = 0
     Private _current_score = 0

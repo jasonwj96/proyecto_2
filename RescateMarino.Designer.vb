@@ -41,6 +41,7 @@ Partial Class RescateMarino
         tmr_swimmer_move = New Timer(components)
         tmr_respawn = New Timer(components)
         tmr_shark_spawn = New Timer(components)
+        tmr_round = New Timer(components)
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         CType(pic_clock, ComponentModel.ISupportInitialize).BeginInit()
         pnl_statusbar.SuspendLayout()
@@ -68,7 +69,7 @@ Partial Class RescateMarino
         pic_clock.Anchor = AnchorStyles.Top
         pic_clock.BackColor = Color.Transparent
         pic_clock.Image = My.Resources.Resources.clock_sprite
-        pic_clock.Location = New Point(621, 14)
+        pic_clock.Location = New Point(741, 17)
         pic_clock.Margin = New Padding(2)
         pic_clock.Name = "pic_clock"
         pic_clock.Size = New Size(62, 55)
@@ -82,12 +83,11 @@ Partial Class RescateMarino
         lbl_time.BackColor = Color.Transparent
         lbl_time.Font = New Font("Arial Black", 16F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lbl_time.ForeColor = Color.Black
-        lbl_time.Location = New Point(687, 23)
+        lbl_time.Location = New Point(807, 23)
         lbl_time.Margin = New Padding(2, 0, 2, 0)
         lbl_time.Name = "lbl_time"
-        lbl_time.Size = New Size(94, 45)
+        lbl_time.Size = New Size(0, 45)
         lbl_time.TabIndex = 10
-        lbl_time.Text = "5:00"
         ' 
         ' tmr_game
         ' 
@@ -105,7 +105,7 @@ Partial Class RescateMarino
         pnl_statusbar.Location = New Point(-1, -2)
         pnl_statusbar.Margin = New Padding(2)
         pnl_statusbar.Name = "pnl_statusbar"
-        pnl_statusbar.Size = New Size(1625, 85)
+        pnl_statusbar.Size = New Size(1877, 85)
         pnl_statusbar.TabIndex = 12
         ' 
         ' Label1
@@ -114,7 +114,7 @@ Partial Class RescateMarino
         Label1.BackColor = Color.Transparent
         Label1.Font = New Font("Arial Black", 16F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.Black
-        Label1.Location = New Point(932, 21)
+        Label1.Location = New Point(1012, 21)
         Label1.Margin = New Padding(2, 0, 2, 0)
         Label1.Name = "Label1"
         Label1.Size = New Size(163, 45)
@@ -127,7 +127,7 @@ Partial Class RescateMarino
         lbl_current_points.BackColor = Color.Transparent
         lbl_current_points.Font = New Font("Arial Black", 16F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lbl_current_points.ForeColor = Color.Black
-        lbl_current_points.Location = New Point(1089, 23)
+        lbl_current_points.Location = New Point(1176, 22)
         lbl_current_points.Margin = New Padding(2, 0, 2, 0)
         lbl_current_points.Name = "lbl_current_points"
         lbl_current_points.Size = New Size(41, 45)
@@ -171,7 +171,7 @@ Partial Class RescateMarino
         btn_a_key.ErrorImage = My.Resources.Resources.a_key
         btn_a_key.Image = My.Resources.Resources.a_key
         btn_a_key.InitialImage = Nothing
-        btn_a_key.Location = New Point(1461, 876)
+        btn_a_key.Location = New Point(1737, 1279)
         btn_a_key.Margin = New Padding(2)
         btn_a_key.Name = "btn_a_key"
         btn_a_key.Size = New Size(40, 40)
@@ -186,7 +186,7 @@ Partial Class RescateMarino
         btn_s_key.ErrorImage = My.Resources.Resources.a_key
         btn_s_key.Image = My.Resources.Resources.s_key
         btn_s_key.InitialImage = Nothing
-        btn_s_key.Location = New Point(1499, 876)
+        btn_s_key.Location = New Point(1775, 1279)
         btn_s_key.Margin = New Padding(2)
         btn_s_key.Name = "btn_s_key"
         btn_s_key.Size = New Size(40, 40)
@@ -201,7 +201,7 @@ Partial Class RescateMarino
         btn_w_key.ErrorImage = My.Resources.Resources.a_key
         btn_w_key.Image = My.Resources.Resources.w_key
         btn_w_key.InitialImage = Nothing
-        btn_w_key.Location = New Point(1499, 834)
+        btn_w_key.Location = New Point(1775, 1237)
         btn_w_key.Margin = New Padding(2)
         btn_w_key.Name = "btn_w_key"
         btn_w_key.Size = New Size(40, 40)
@@ -216,7 +216,7 @@ Partial Class RescateMarino
         btn_d_key.ErrorImage = My.Resources.Resources.a_key
         btn_d_key.Image = My.Resources.Resources.d_key
         btn_d_key.InitialImage = Nothing
-        btn_d_key.Location = New Point(1536, 876)
+        btn_d_key.Location = New Point(1812, 1279)
         btn_d_key.Margin = New Padding(2)
         btn_d_key.Name = "btn_d_key"
         btn_d_key.Size = New Size(40, 40)
@@ -231,7 +231,7 @@ Partial Class RescateMarino
         btn_space_key.ErrorImage = My.Resources.Resources.explosion_sprite
         btn_space_key.Image = My.Resources.Resources.space
         btn_space_key.InitialImage = Nothing
-        btn_space_key.Location = New Point(1305, 876)
+        btn_space_key.Location = New Point(1581, 1279)
         btn_space_key.Margin = New Padding(2)
         btn_space_key.Name = "btn_space_key"
         btn_space_key.Size = New Size(150, 40)
@@ -241,6 +241,7 @@ Partial Class RescateMarino
         ' 
         ' tmr_swimmer_move
         ' 
+        tmr_swimmer_move.Interval = 50
         ' 
         ' tmr_respawn
         ' 
@@ -248,14 +249,18 @@ Partial Class RescateMarino
         ' 
         ' tmr_shark_spawn
         ' 
-        tmr_shark_spawn.Interval = 1000
+        tmr_shark_spawn.Interval = 3000
+        ' 
+        ' tmr_round
+        ' 
+        tmr_round.Interval = 1000
         ' 
         ' RescateMarino
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
-        ClientSize = New Size(1602, 941)
+        ClientSize = New Size(1878, 1344)
         Controls.Add(btn_fuel_bar)
         Controls.Add(btn_space_key)
         Controls.Add(btn_w_key)
@@ -297,5 +302,6 @@ Partial Class RescateMarino
     Friend WithEvents btn_fuel_bar_empty As Button
     Friend WithEvents tmr_respawn As Timer
     Friend WithEvents tmr_shark_spawn As Timer
+    Friend WithEvents tmr_round As Timer
 
 End Class
