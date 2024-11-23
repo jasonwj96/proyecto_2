@@ -63,7 +63,7 @@
     Public Sub New(name As String, type As EntityType, posx As Integer, posy As Integer, width As Integer, height As Integer)
         Select Case type
             Case EntityType.SPEEDBOAT
-                Me.Image = My.Resources.speedboat_sprite
+                Me.Image = My.Resources.boat_right_sprite
             Case EntityType.LIFEBOAT
                 Me.Image = My.Resources.lifeboar_sprite_2
             Case EntityType.HUMAN

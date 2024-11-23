@@ -7,7 +7,6 @@
     Dim STATUSBAR_HEIGHT As Integer = 85
     Dim TITLEBAR_HEIGHT As Integer = 40
     Dim MAX_SWIMMERS As Integer = 10
-    Dim MAX_SHARKS As Integer = 10
 
     Dim SWIMMER_SPRITE_SIZE As Integer = 75
     Dim HEART_SPRITE_SIZE As Integer = 50
@@ -30,6 +29,7 @@
     Dim REMAINING_RESPAWN_TIME = RESPAWN_TIME_SECS
     Dim MAX_TIMELIMIT = 60
     Dim remaining_time = MAX_TIMELIMIT
+    Dim MAX_SHARKS As Integer = current_round
 
     'Limites de la pantalla
     Dim X_LEFT_BOUND As Integer = 0
@@ -301,6 +301,7 @@
             lbl_current_points.Text = speedboat.current_score
             current_round = Math.Ceiling(speedboat.current_score / POINTS_FOR_NEXT_ROUND)
             lbl_level.Text = current_round + 1
+            MAX_SHARKS = current_round
         End If
     End Sub
 
@@ -323,15 +324,19 @@
             Case Keys.Up, Keys.W
                 speedboat.diry -= speedboat.acceleration
                 btn_w_key.Image = My.Resources.w_key_pressed
+                speedboat.Image = My.Resources.boat_up_sprite
             Case Keys.Down, Keys.S
                 speedboat.diry += speedboat.acceleration
                 btn_s_key.Image = My.Resources.s_key_pressed
+                speedboat.Image = My.Resources.boat_down_sprite
             Case Keys.Left, Keys.A
                 speedboat.dirx -= speedboat.acceleration
                 btn_a_key.Image = My.Resources.a_key_pressed
+                speedboat.Image = My.Resources.boat_left_sprite
             Case Keys.Right, Keys.D
                 speedboat.dirx += speedboat.acceleration
                 btn_d_key.Image = My.Resources.d_key_pressed
+                speedboat.Image = My.Resources.boat_right_sprite
             Case Keys.Space
                 'Simular freno
                 speedboat.dirx /= 2
@@ -354,12 +359,6 @@
 
         If speedboat.dirx < 0 Then
             speedboat.dirx = Math.Max(speedboat.dirx, -speedboat.max_speed)
-        End If
-
-        If speedboat.dirx > 0 Then
-            speedboat.Image = My.Resources.speedboat_sprite_r
-        Else
-            speedboat.Image = My.Resources.speedboat_sprite
         End If
 
         Return MyBase.ProcessCmdKey(msg, keyData)
