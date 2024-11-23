@@ -20,7 +20,7 @@
     Dim SWIMMER_POINTS = 10
 
     'Variables de la ronda
-    Dim POINTS_FOR_NEXT_ROUND = 10
+    Dim POINTS_FOR_NEXT_ROUND = 100
     Dim current_round As Integer = 1
     Dim current_points As Integer = 0
     Dim current_lives As Integer = 5
@@ -299,17 +299,15 @@
             Dim speedboat As Vehicle = Me.Controls("pic_speedboat")
             lbl_current_points.Text = speedboat.current_score
 
-            If Math.Ceiling(speedboat.current_score / POINTS_FOR_NEXT_ROUND) > current_round Then
+            If speedboat.current_score >= POINTS_FOR_NEXT_ROUND And current_round < 10 Then
                 Reset_Game()
-            End If
-
-            current_round = Math.Ceiling(speedboat.current_score / POINTS_FOR_NEXT_ROUND)
-            lbl_level.Text = current_round + 1
-
-            If current_round > 9 Then
+                current_round += 1
+            ElseIf current_round >= 10 Then
                 Stop_Game()
                 Exit Sub
             End If
+
+            lbl_level.Text = current_round
 
             For Each element As Swimmer In vpic_swimmers
                 element.acceleration = 1 * current_round
@@ -319,7 +317,7 @@
                 element.acceleration = 1 * current_round
             Next
 
-            MAX_SHARKS = current_round + 1
+            MAX_SHARKS = current_round
         End If
     End Sub
 
@@ -491,6 +489,7 @@
         speedboat.current_passengers = 0
         speedboat.ChangeDirection(0, 0)
         speedboat.Location = New Point(Me.Width / 2, Me.Height / 2)
+        speedboat.current_score = 0
         speedboat.current_fuel = speedboat.max_fuel
         btn_fuel_bar.Width = FUELBAR_WIDTH * (speedboat.current_fuel / speedboat.max_fuel)
 
